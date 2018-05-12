@@ -48,4 +48,4 @@ composer create-project --prefer-dist laravel/laravel aventon
 
 eso levanta el servidor local en el puerto 8000
 
-entrar a localhost:8000 y listo deberian ver la pagina de laravel.
+entrar a localhost:8000 desde el navegador sin cerrar la consola y listo deberian ver la pagina de laravel.
