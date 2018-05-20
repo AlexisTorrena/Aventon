@@ -11,6 +11,11 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'TripsController@index');
+
+Route::get('/Trips', 'TripsController@index');
+
+Route::get('/Trips/{id}', 'TripsController@details');
+
+Route::get('/Users', function(){
+     return 'es la ruta de usuarios';});
