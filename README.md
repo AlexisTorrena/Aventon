@@ -6,10 +6,12 @@ proyecto de ingeniería de software 2 UNLP
 
 #### IMPORTANTE: 
 Si bajas una copia de este repo:
+
 1 - para que composer instale las dependecias ejecutar composer install en la carpeta aventonProject la primera ves que quierar correr el proyecto local.
 
 2- una ves instaladas als dependencias , buscar el archivo env.example, y modificar:
 original:
+
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
 DB_PORT=3306
@@ -18,6 +20,7 @@ DB_USERNAME=homestead
 DB_PASSWORD=secret
 
 debe quedar: 
+
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
 DB_PORT=3306
