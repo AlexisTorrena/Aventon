@@ -4,6 +4,8 @@ proyecto de ingeniería de software 2 UNLP
 
 #Ambiente de desarrollo
 
+IMPORTANTE: Si bajas una copia de este repo, para que composer instale las dependecias ejecutar composer install en la carpeta aventonProject la primera ves que quierar correr el proyecto local.
+
 Pasos para replicar el ambiente de desarrollo:
 
 1- Instalar XAMMP https://www.apachefriends.org/es/index.html (disponible en windows, max y linux) recordar path de instalacion. 
@@ -39,6 +41,8 @@ correr comando "show databases;" para verificar que este en la lista de bases de
 https://getcomposer.org/doc/00-intro.md#installation-linux-unix-osx
 
 despues abrir una nueva ventana de cmd y teclear composer, si reconoce el comando esta bien configurado.
+
+###Los siguientes pasos son para crear un proyecto nuevo de ejemplo , pero no es el de este repo.
 
 9 - abir cmd , posicionarce en el path donde desea crear el proyecto y ajecutar la siguiente linea: Tarda bastante
 
