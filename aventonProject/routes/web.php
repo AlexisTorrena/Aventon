@@ -15,6 +15,11 @@ Route::get('/', 'TripsController@index');
 
 Route::get('/Trips', 'TripsController@index');
 
+Route::get('/Trips/newTrip', function(){
+
+    return view('Trips/newTrip');
+});
+
 Route::get('/Trips/{id}', 'TripsController@details');
 
 Route::get('/Users', function(){
