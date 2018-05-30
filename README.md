@@ -9,7 +9,7 @@ Si bajas una copia de este repo:
 
 1 - para que composer instale las dependecias ejecutar composer install en la carpeta aventonProject la primera ves que quierar correr el proyecto local.
 
-2- una ves instaladas als dependencias , buscar el archivo env.example, y modificar:
+2- una vez instaladas las dependencias , buscar el archivo env sino existe crear una copia de env.example y renombrar a .env, y modificar:
 original: <br/>
 
 DB_CONNECTION=mysql <br/>
