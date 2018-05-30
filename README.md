@@ -4,9 +4,30 @@ proyecto de ingeniería de software 2 UNLP
 
 #Ambiente de desarrollo
 
-IMPORTANTE: Si bajas una copia de este repo, para que composer instale las dependecias ejecutar composer install en la carpeta aventonProject la primera ves que quierar correr el proyecto local.
+#### IMPORTANTE: 
+Si bajas una copia de este repo:
+1 - para que composer instale las dependecias ejecutar composer install en la carpeta aventonProject la primera ves que quierar correr el proyecto local.
 
-Pasos para replicar el ambiente de desarrollo:
+2- una ves instaladas als dependencias , buscar el archivo env.example, y modificar:
+original:
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=homestead
+DB_USERNAME=homestead
+DB_PASSWORD=secret
+
+debe quedar: 
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=aventon
+DB_USERNAME=root
+DB_PASSWORD=
+
+3 - correr el comando en la carpeta aventonProject: php artisan migrate
+
+### Pasos para replicar el ambiente de desarrollo:
 
 1- Instalar XAMMP https://www.apachefriends.org/es/index.html (disponible en windows, max y linux) recordar path de instalacion. 
 
