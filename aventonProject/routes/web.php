@@ -19,3 +19,6 @@ Route::get('/Trips/{id}', 'TripsController@details');
 
 Route::get('/Users', function(){
      return 'es la ruta de usuarios';});
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
