@@ -15,12 +15,11 @@ Route::get('/', 'TripsController@index');
 
 Route::get('/Trips', 'TripsController@index');
 
-Route::get('/Trips/newTrip', function(){
-
-    return view('Trips/newTrip');
-});
+Route::get('/Trips/newTrip', 'TripsController@create');
 
 Route::get('/Trips/{id}', 'TripsController@details');
+
+Route::post('/Trips', 'TripsController@store');
 
 Route::get('/Users', function(){
      return 'es la ruta de usuarios';});

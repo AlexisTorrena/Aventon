@@ -12,4 +12,10 @@
     $(function () {
         $('#datetimepicker1').datetimepicker();
     });
-</script>  
+</script>
+<script type="text/javascript">
+    $('.dropdown-menu a').click(function(){
+        $('#selected').text($(this).text());
+        $('#periodicity').val($(this).text());
+    });
+</script>
