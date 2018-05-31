@@ -18,11 +18,11 @@
     </div>
     <div class="navbar navbar-inverse bg-inverse">
       <div class="container d-flex justify-content-between">
-        <a href="/" class="navbar-brand">Home</a>
+        <a href="/" class="navbar-brand">Inicio</a>
         <ul class="navbar-nav ml-auto">
           <!-- Authentication Links -->
           @guest
-            <a class="nav-brand" href="{{ route('login') }}">{{ __('Login') }}</a>
+            <a class="nav-brand" href="{{ route('login') }}">{{ __('Iniciar sesión') }}</a>
             <a class="nav-brand" href="{{ route('register') }}">{{ __('Registrar') }}</a>
           @else
             <li class="nav-item dropdown">
@@ -34,7 +34,7 @@
                     <a class="dropdown-item" href="{{ route('logout') }}"
                         onclick="event.preventDefault();
                                     document.getElementById('logout-form').submit();">
-                         {{ __('Logout') }}
+                         {{ __('Cerrar sesión') }}
                     </a>
 
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">

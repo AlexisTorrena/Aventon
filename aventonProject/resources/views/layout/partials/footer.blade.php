@@ -1,8 +1,11 @@
 <footer class="text-muted">
       <div class="container">
         <p class="float-right">
-          <a href="#">Back to top</a>
+          <br>
+          <a href="#">Volver arriba</a>
         </p>
-        <p>Aventon &copy; marca regitrada</p>
+        <p>
+        <br>
+        Aventon &copy; Marca Regitrada</p>
       </div>
 </footer>
