@@ -8,7 +8,10 @@
  
  @include('layout.partials.nav')
  
-            @include('layout.partials.header')
+        @include('layout.artials.header')
+  
+ @include('Trips.newTrip')
+
  
  @yield('content')
  
@@ -16,6 +19,6 @@
  
  @include('layout.partials.footer-scripts')
  
- 
+
   </body>
 </html>

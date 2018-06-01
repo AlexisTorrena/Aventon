@@ -15,12 +15,22 @@ Route::get('/', 'TripsController@index');
 
 Route::get('/Trips', 'TripsController@index');
 
+Route::get('/Trips/newTrip', 'TripsController@create');
+
 Route::get('/Trips/{id}', 'TripsController@details');
+
+Route::get('/registerVehicle', 'VehicleController@register');
+
+Route::post('/vehicleCreate', 'VehicleController@store');
+
+Route::post('/Trips', 'TripsController@store');
 
 Route::get('/Users', function(){
      return 'es la ruta de usuarios';});
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/registrationCompleted', 'HomeController@regCompleted');
+
