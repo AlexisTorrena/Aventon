@@ -8,7 +8,7 @@
  
  @include('layout.partials.nav')
  
-        @include('layout.artials.header')
+//        @include('layout.artials.header')
   
  @include('Trips.newTrip')
 
