@@ -27,3 +27,10 @@ Route::post('/Trips', 'TripsController@store');
 
 Route::get('/Users', function(){
      return 'es la ruta de usuarios';});
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
+
+Route::get('/registrationCompleted', 'HomeController@regCompleted');
+
