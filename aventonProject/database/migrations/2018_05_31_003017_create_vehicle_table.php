@@ -17,7 +17,7 @@ class CreateVehicleTable extends Migration
             $table->increments('id');
             $table->string('brand');
             $table->string('model');
-            $table->string('patent');->unique();
+            $table->string('patent')->unique();
             $table->integer('seats');
         });
     }
