@@ -23,7 +23,7 @@
             <td>{{ $trip['destination'] }}</td>
             <td>{{ $trip['date'] }}</td>
             <td>{{ $trip['cost'] }}</td>
-            <td>{{ $trip['isPeriodic'] }}</td>
+            <td>{{ $trip['periodicity'] }}</td>
             <td>{{ $trip['shareLink'] }}</td>
             <td><a class="button hollow" href="./details.html">VIEW DETAILS</a></td>
           </tr>

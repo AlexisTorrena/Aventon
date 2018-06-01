@@ -15,12 +15,12 @@ class CreateTripsTable extends Migration
     {
         Schema::create('trips', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('status');
+            $table->enum('status', ['Abierto','Cerrado','Cancelado','Realizado']);
             $table->string('origin');
             $table->string('destination');
-            $table->string('date');
-            $table->string('cost');
-            $table->string('isPeriodic');
+            $table->dateTime('date');
+            $table->integer('cost');
+            $table->enum('periodicity', ['Unica','Diaria','Semanal','Mensual']);
             $table->timestamps();
         });
     }
