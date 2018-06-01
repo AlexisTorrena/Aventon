@@ -19,6 +19,10 @@ Route::get('/Trips/newTrip', 'TripsController@create');
 
 Route::get('/Trips/{id}', 'TripsController@details');
 
+Route::get('/registerVehicle', 'VehicleController@register');
+
+Route::post('/vehicleCreate', 'VehicleController@store');
+
 Route::post('/Trips', 'TripsController@store');
 
 Route::get('/Users', function(){

@@ -5,6 +5,7 @@
         <p>
           <a href="#" class="btn btn-info" data-toggle="modal" data-target="#newTrip">Dar Aventon! </a>
           <a href="#" class="btn btn-info">Buscar Aventon</a>
+          <a href="registerVehicle" class="btn btn-info" class="btn btn-info">Agregar Vehiculo</a>
         </p>
       </div>
 </section>
