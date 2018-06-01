@@ -1,5 +1,5 @@
 @extends('layout.mainlayout')
- 
+
 @section('content')
 <div class="container">
   <table class="table table-striped">
