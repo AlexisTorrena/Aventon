@@ -12,15 +12,15 @@
   <form method="POST" action="{{url('vehicleCreate')}}">
   <div class="form-group">
     <label for="exampleInputEmail1">Marca</label>
-    <input type="text" class="form-control" id="brandVehicle" name="brandVehicle" placeholder="Volkswagen" required>
+    <input type="text" class="form-control" maxlength="15" id="brandVehicle" name="brandVehicle" placeholder="Volkswagen" required>
   </div>
   <div class="form-group">
     <label for="exampleInputPassword1">Modelo</label>
-    <input type="text" class="form-control" id="modelVehicle" name="modelVehicle" placeholder="Fox" required>
+    <input type="text" class="form-control" maxlength="15" id="modelVehicle" name="modelVehicle" placeholder="Fox" required>
   </div>
   <div class="form-group">
     <label for="exampleInputEmail1">Patente</label>
-    <input type="text" class="form-control" id="patentVehicle" name="patentVehicle" placeholder="LHN 640" required>
+    <input type="text" class="form-control" maxlength="8" id="patentVehicle" name="patentVehicle" placeholder="LHN 640" required>
   </div>
   <div class="form-group">
     <label for="exampleInputEmail1">Cantidad de asientos</label>

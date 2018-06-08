@@ -31,8 +31,13 @@ class VehicleController extends Controller
      }else{
        return back()->with('error', 'Error al registrar el vehiculo, por favor intente de nuevo!');
      }
+  }
 
-     // TripsController::index();
-    // code...
+  public function index()
+  {
+      $vehicle = new Vehicle;
+      $vehicle = $vehicle->all();
+
+      return view('Vehicle/index')->with('vehicles',$vehicle);
   }
 }

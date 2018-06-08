@@ -23,6 +23,8 @@ Route::get('/registerVehicle', 'VehicleController@register');
 
 Route::post('/vehicleCreate', 'VehicleController@store');
 
+Route::get('/Vehicles', 'VehicleController@index');
+
 Route::post('/Trips', 'TripsController@store');
 
 Route::get('/Users', function(){
