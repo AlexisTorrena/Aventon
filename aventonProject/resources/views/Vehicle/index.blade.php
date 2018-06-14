@@ -2,6 +2,7 @@
 
 @section('content')
 <div class="container">
+  @include('layout.partials.actions')
   <table class="table table-striped">
       <thead class="thead-dark">
           <tr>
@@ -9,7 +10,7 @@
             <th>Modelo</th>
             <th>Patente</th>
             <th>Numero de asientos</th>
-            <th width="200">Action</th>
+            <th width="200">Detalle</th>
           </tr>
       </thead>
       <tbody>
@@ -19,7 +20,7 @@
             <td>{{ $vehicle['model'] }}</td>
             <td>{{ $vehicle['patent'] }}</td>
             <td>{{ $vehicle['seats'] }}</td>
-            <td><a class="button hollow" href="./details.html">VIEW DETAILS</a></td>
+            <td><a class="button hollow" href="./details.html">Ver</a></td>
           </tr>
           @endforeach
       </tbody>
