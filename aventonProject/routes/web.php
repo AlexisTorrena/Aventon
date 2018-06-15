@@ -11,11 +11,13 @@
 |
 */
 
-Route::get('/', 'TripsController@index');
+Route::get('/', 'HomeController@index')->name('home');
+
+Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/Trips', 'TripsController@index');
 
-Route::get('/Trips/newTrip', 'TripsController@create');
+Route::get('/registerTrip', 'TripsController@create');
 
 Route::get('/Trips/{id}', 'TripsController@details');
 
@@ -31,8 +33,6 @@ Route::get('/Users', function(){
      return 'es la ruta de usuarios';});
 
 Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/registrationCompleted', 'HomeController@regCompleted');
 
