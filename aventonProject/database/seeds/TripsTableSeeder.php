@@ -12,9 +12,8 @@ class TripsTableSeeder extends Seeder
     public function run()
     {
         DB::table('trips')->insert([
-            ['status' => 'abierto', 'origin' => 'La Plata', 'destination' => 'Buenos Aires', 'date' => '2018-05-18 00:00:00', 'cost' => '120', 'periodicity' => 'Unica' ],
-            ['status' => 'abierto', 'origin' => 'Buenos Aires', 'destination' => 'La Plata', 'date' => '2018-05-19 00:00:00', 'cost' => '120', 'periodicity' => 'Unica' ],
-            ['status' => 'cerrado', 'origin' => 'Quilmes', 'destination' => 'La Plata', 'date' => '2018-05-20 00:00:00', 'cost' => '60', 'periodicity' => 'Unica' ]
-        ]);
+            ['status' => 'abierto', 'date' => '2018-07-18', 'trip_config_id' => '1' ],
+            ['status' => 'abierto', 'date' => '2018-07-19', 'trip_config_id' => '1' ]
+            ]);
     }
 }
