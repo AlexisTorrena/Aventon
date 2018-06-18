@@ -16,12 +16,9 @@ class CreateTripsTable extends Migration
         Schema::create('trips', function (Blueprint $table) {
             $table->increments('id');
             $table->enum('status', ['Abierto','Cerrado','Cancelado','Realizado']);
-            $table->string('origin');
-            $table->string('destination');
-            $table->dateTime('date');
-            $table->integer('cost');
-            $table->enum('periodicity', ['Unica','Diaria','Semanal','Mensual']);
+            $table->date('date');
             $table->timestamps();
+            $table->unsignedInteger('trip_config_id');
         });
     }
 
