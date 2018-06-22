@@ -28,5 +28,15 @@ class CustomUser extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function trips(){
+
+        return $this->belongsToMany('App\Trip', 'trip_user', 'user_id', 'trip_id');
+    }
+
+    public function postulations(){
+        
+        return $this->belongsToMany('App\Trip', 'postulations', 'user_id', 'trip_id');
+    }
  
 }

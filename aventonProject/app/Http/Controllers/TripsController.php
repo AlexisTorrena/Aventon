@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Trip as Trip;
 use Illuminate\Http\Request;
+use App\Quotation;
+use DB;
+use Illuminate\Support\Facades\Auth;
 
 class TripsController extends Controller
 {
@@ -96,5 +99,12 @@ class TripsController extends Controller
     public function destroy(Trip $trip)
     {
         //
+    }
+
+    public function postulate($id){
+        DB::table('postulations')->insert(
+            ['user_id' => Auth::user()->id,
+            'trip_id' => $id]
+        );
     }
 }

@@ -34,5 +34,9 @@ Route::get('/Users', function(){
 
 Auth::routes();
 
+Route::get('/tripprueba', 'HomeController@prueba');
+
+Route::get('/postulate/{id}', 'TripsController@postulate');
+
 Route::get('/registrationCompleted', 'HomeController@regCompleted');
 

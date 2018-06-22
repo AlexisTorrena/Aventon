@@ -23,7 +23,7 @@
         <td>{{ $trip['date'] }}</td>
         <td>{{ $trip['cost'] }}</td>
         <td>{{ $trip['periodicity'] }}</td>
-        <td><a class="button hollow" href="{{ action('TripsController@postulate', ['id' => $trip->id]) }}">Ver</a></td>
+        <td><a class="button hollow" href="./details.html">Ver</a></td>
       </tr>
       @endforeach
     </tbody>
