@@ -32,7 +32,8 @@ Route::post('/Trips', 'TripsController@store');
 Route::get('/Users', function(){
      return 'es la ruta de usuarios';});
 
+Route::get('/perfil', 'UserController@show');
+
 Auth::routes();
 
 Route::get('/registrationCompleted', 'HomeController@regCompleted');
-
