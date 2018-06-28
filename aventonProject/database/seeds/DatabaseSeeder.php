@@ -14,6 +14,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             TripConfigurationsSeeder::class,
             TripsTableSeeder::class,
+            VehicleTableSeeder::class,
         ]);
     }
 }

@@ -26,4 +26,15 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function getNameAtributte($value='')
+    {
+      return \Auth::user()->name;
+    }
+
+    public function getBirthDateAtributte($value='')
+    {
+      return \Auth::user()->birthDate;
+    }
+
 }
