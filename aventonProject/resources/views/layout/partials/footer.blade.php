@@ -6,6 +6,6 @@
         </p>
         <p>
         <br>
-        Aventon &copy; Marca Regitrada</p>
+        Aventon &copy; Marca Registrada</p>
       </div>
 </footer>

@@ -8,10 +8,8 @@
         <th>Estado</th>
         <th>Origen</th>
         <th>Destino</th>
-        <th>Hora</th>
         <th>Fecha</th>
         <th>Costo</th>
-        <th>Duracion</th>
         <th>Frecuencia</th>
         <th width="200">Detalle</th>
       </tr>
@@ -22,12 +20,10 @@
         <td>{{ $trip['status'] }}</td>
         <td>{{ $trip['origin'] }}</td>
         <td>{{ $trip['destination'] }}</td>
-        <td>{{ $trip['startTime'] }}</td>
         <td>{{ $trip['date'] }}</td>
         <td>{{ $trip['cost'] }}</td>
-        <td>{{ $trip['duration'] }}</td>
         <td>{{ $trip['periodicity'] }}</td>
-        <td><a class="button hollow" href="{{ action('TripsController@postulate', ['id' => $trip->id]) }}">Ver</a></td>
+        <td><a class="button hollow" href="./details.html">Ver</a></td>
       </tr>
       @endforeach
     </tbody>

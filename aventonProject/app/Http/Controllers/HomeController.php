@@ -29,6 +29,11 @@ class HomeController extends Controller
         return view('Trips/index')->with('trips',$trips);
     }
 
+    public function prueba(){
+
+        return view('Trips/tripprueba');
+    }
+
     public function regCompleted()
     {
         return view('registrationCompleted');

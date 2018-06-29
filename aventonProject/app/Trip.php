@@ -6,6 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
 class Trip extends Model
 {
+    //
+
+    protected $primaryKey = 'guid';
+    
     //Accessors
     public function getdateAttribute()
     {
@@ -22,6 +26,17 @@ class Trip extends Model
     public function getshareLinkAttribute()
     {
         return "http://localhost:8000/Trips/$this->id";
+    }
+
+
+    public function passengers(){
+        
+        return $this->belongsToMany('App\Customuser', 'trip_user', 'trip_id', 'user_id' );
+    }
+
+    public function postulations(){
+
+        return $this->belongsToMany('App\Customuser', 'postulations', 'trip_id', 'user_id');
     }
 
     public function getoriginAttribute()
