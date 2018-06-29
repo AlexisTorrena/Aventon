@@ -2,27 +2,39 @@
 @section('content')
 
 
-<h1> Detalle de Viaje
-    <h1>
-
-        <div class="container">
-            <div class="row">
-                <label class="" for="origin">Origen: {{ $trip['origin'] }}</label>
-            </div>
-            <div class="row">
-                <label class="" for="destination">Destino: {{$trip['destination']}}</label>
-            </div>
-            <div class="row">
-                <label class="" for="duration">Duracion: {{$trip['duration']}}</label>
-            </div>
-            <div class="row">
-                <label class="" for="cost">Costo: {{$trip['cost']}}</label>
-            </div>
-            <div class="row">
-                <label class="" for="date">Fecha: {{$trip['date']}}</label>
-            </div>
-            <div class="row">
-                <label class="" for="startTime">Hora: {{$trip['startTime']}}</label>
-            </div>
-        </div>
+ <div class="container">
+    <h3 align="center"> Detalle de Viaje</h3>
+        @if(session()->has('succesfuly'))
+            <div class="alert alert-success" role="alert">{{ session('succesfuly') }} </div>
+         @else
+          @if(session()->has('error'))
+           <div class="alert alert-danger" role="alert"> {{ session('error') }}</div>
+          @endif
+        @endif
+    <table class="table table-striped">
+        <thead class="thead-dark">
+         <tr>
+          <th>Origen</th>
+         <th>Destino</th>
+         <th>Hora</th>
+         <th>Fecha</th>
+         <th>Costo</th>
+         <th>Duracion</th>
+         <th>Frecuencia</th>
+         <th width="200">Postulate!</th>
+         </tr>
+        </thead>
+         <tbody>
+             <tr>
+                  <td>{{ $trip['origin'] }}</td>
+                  <td>{{ $trip['destination'] }}</td>
+                  <td>{{ $trip['startTime'] }}</td>
+                  <td>{{ $trip['date'] }}</td>
+                  <td>{{ $trip['cost'] }}</td>
+                  <td>{{ $trip['duration'] }}</td>
+                  <td>{{ $trip['periodicity'] }}</td>
+                  <td><a class="button hollow" href="{{ action('TripsController@postulate', ['id' => $trip->id]) }}">Postularse</a></td>
+             </tr>
+         </tbody>
+        </table>
 @endsection

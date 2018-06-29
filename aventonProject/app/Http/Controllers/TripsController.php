@@ -125,17 +125,13 @@ class TripsController extends Controller
 
     public function postulate($id){
 
-        $trips = new Trip;
-        $trips->date = $date;
-        $trips->trip_config_id = $tripConfig;
-        $trips->status = 'Abierto';
-        $trips->save();
-        $trip = $trips;
-
         DB::table('postulations')->insert(
             ['user_id' => Auth::user()->id,
             'trip_id' => $id]
         );
+
+        return back()->with('succesfuly', 'Te postulaste! Ahora tenés que esperar que el dueño de la publicación te acepte.');
+        
     }
 
     public function detail($tripConfig,$date,$tripId){
