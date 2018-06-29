@@ -8,7 +8,7 @@ class Trip extends Model
 {
     //
 
-    protected $primaryKey = 'guid';
+   // protected $primaryKey = 'guid';
     
     //Accessors
     public function getdateAttribute()

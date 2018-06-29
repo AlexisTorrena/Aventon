@@ -52,7 +52,8 @@ class TripConfiguration extends Model
                     $trip = new Trip;
                     $trip->trip_config_id= $this->id;
                     $trip->date = $this->startDate->copy()->addDay($x);
-                    $trip->status = 'abierto';
+                    $trip->status = 'Abierto';
+                    $trip->id = 0;
                     $gTrips->push($trip);
                 } 
                 break;

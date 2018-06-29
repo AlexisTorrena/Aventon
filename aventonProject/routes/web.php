@@ -19,7 +19,6 @@ Route::get('/Trips', 'TripsController@index');
 
 Route::get('/registerTrip', 'TripsController@create');
 
-Route::get('/Trips/{id}', 'TripsController@details');
 
 Route::get('/registerVehicle', 'VehicleController@register');
 
@@ -39,5 +38,7 @@ Auth::routes();
 Route::get('/tripprueba', 'HomeController@prueba');
 
 Route::get('/postulate/{id}', 'TripsController@postulate');
+
+Route::get('/Trips/detail/{tripConfig}/{date}/{id}', 'TripsController@detail');
 
 Route::get('/registrationCompleted', 'HomeController@regCompleted');

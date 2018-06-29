@@ -124,9 +124,35 @@ class TripsController extends Controller
     }
 
     public function postulate($id){
+
+        $trips = new Trip;
+        $trips->date = $date;
+        $trips->trip_config_id = $tripConfig;
+        $trips->status = 'Abierto';
+        $trips->save();
+        $trip = $trips;
+
         DB::table('postulations')->insert(
             ['user_id' => Auth::user()->id,
             'trip_id' => $id]
         );
+    }
+
+    public function detail($tripConfig,$date,$tripId){
+        $trips = new Trip;
+        $trip;
+
+        if($tripId > 0)
+        {
+          $trip = $trips->find($tripId);
+        }
+        else
+        {
+            $trips = new TripConfiguration;
+            $trip = $trips->find($tripConfig)->goshtTrips->first();
+            $trip->date = $date;
+        }
+        
+        return view('Trips/detail')->with('trip',$trip);
     }
 }
