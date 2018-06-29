@@ -50,6 +50,13 @@ class UserController extends Controller
       return view('User/userProfile')->with('user',$user);
     }
 
+    public function showVehicles($vehicleId){
+
+      $vehicles = Customuser::with('vehicles')->get()
+      return view('Vehicle/index')->with('vehicles',$vehicles);
+
+    }
+
     /**
      * Show the form for editing the specified resource.
      *

@@ -27,6 +27,7 @@ class VehicleController extends Controller
      $vehicle -> patent = $request -> input('patentVehicle');
      $vehicle -> seats = $request -> input('numberOfSeats');
      if($vehicle->save()){
+        UserController::saveVehicle($vehicle->id );
         return back()->with('succesfuly', 'Vehiculo registrado');
      }else{
        return back()->with('error', 'Error al registrar el vehiculo, por favor intente de nuevo!');
