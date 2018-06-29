@@ -24,5 +24,8 @@
             <div class="row">
                 <label class="" for="startTime">Hora: {{$trip['startTime']}}</label>
             </div>
+            <div class="button">
+            <a class="button hollow" href="{{ action('TripsController@postulate', ['id' => $trip->id]) }}">Postularse</a>
+            </div>
         </div>
 @endsection
