@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Trip as Trip;
+use App\TripConfiguration as TripConfiguration;
 use Illuminate\Http\Request;
 use App\Quotation;
 use DB;
@@ -17,8 +18,17 @@ class TripsController extends Controller
      */
     public function index()
     {
-        $trip = new Trip;
-        $trips = $trip->all();
+        $tripConfiguration = new TripConfiguration;
+        $configurations = $tripConfiguration->all();
+
+        $trips = collect(new Trip);
+        foreach ($configurations as $configuration)
+        {
+            $temp = $configuration->trips;
+            $trips = $trips->concat($temp);
+            $temp = $configuration->goshtTrips;
+            $trips = $trips->concat($temp);
+        }
 
         return view('Trips/index')->with('trips',$trips);
     }
@@ -41,17 +51,29 @@ class TripsController extends Controller
      */
     public function store(Request $request)
     {
-        $trip = new Trip;
-        $trip->origin = $request->input('origin');
-        $trip->destination = $request->input('destination');
-        $trip->date = $request->input('datetime');
-        $trip->cost = $request->input('cost');
-        $trip->periodicity = $request->input('periodicity'); 
+        $tripConfiguration = new TripConfiguration;
+        $tripConfiguration->origin = $request->input('origin');
+        $tripConfiguration->destination = $request->input('destination');
+        $tripConfiguration->startTime = $request->input('startTime');
+        $tripConfiguration->cost = $request->input('cost');
+        $tripConfiguration->duration = $request->input('duration');
+        $tripConfiguration->startDate = $request->input('startDate');
+        $tripConfiguration->endDate = $request->input('endDate');
+        $tripConfiguration->periodicity = $request->input('periodicity'); 
 
-        $trip->save();
+        $tripConfiguration->save();
 
-        $trip = new Trip;
-        $trips = $trip->all();
+        $tripConfiguration = new TripConfiguration;
+        $configurations = $tripConfiguration->all();
+
+        $trips = collect(new Trip);
+        foreach ($configurations as $configuration)
+        {
+            $temp = $configuration->trips;
+            $trips = $trips->concat($temp);
+            $temp = $configuration->goshtTrips;
+            $trips = $trips->concat($temp);
+        }
 
         return view('Trips/index')->with('trips',$trips);
     }

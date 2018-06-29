@@ -32,6 +32,8 @@ Route::post('/Trips', 'TripsController@store');
 Route::get('/Users', function(){
      return 'es la ruta de usuarios';});
 
+Route::get('/perfil', 'UserController@show');
+
 Auth::routes();
 
 Route::get('/tripprueba', 'HomeController@prueba');
@@ -39,4 +41,3 @@ Route::get('/tripprueba', 'HomeController@prueba');
 Route::get('/postulate/{id}', 'TripsController@postulate');
 
 Route::get('/registrationCompleted', 'HomeController@regCompleted');
-
