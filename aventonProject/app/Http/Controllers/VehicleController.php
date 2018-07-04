@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Vehicle as Vehicle;
+use Illuminate\Support\Facades\Auth;
+
 
 class VehicleController extends Controller
 {
@@ -26,6 +28,7 @@ class VehicleController extends Controller
      $vehicle -> model = $request -> input('modelVehicle');
      $vehicle -> patent = $request -> input('patentVehicle');
      $vehicle -> seats = $request -> input('numberOfSeats');
+     $vehicle -> custom_user_id = Auth::user()->id;
      if($vehicle->save()){
         return back()->with('succesfuly', 'Vehiculo registrado');
      }else{

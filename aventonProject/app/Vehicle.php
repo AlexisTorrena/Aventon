@@ -17,4 +17,10 @@ class Vehicle extends Model
      public function create()
      {
      }
+
+     public function owner(){
+
+         return $this->belongsTo('App\Customusers');
+     }
+
 }

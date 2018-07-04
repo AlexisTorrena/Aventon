@@ -19,6 +19,9 @@ class CreateVehicleTable extends Migration
             $table->string('model');
             $table->string('patent')->unique();
             $table->integer('seats');
+            $table->unsignedInteger('custom_user_id');
+            $table->foreign('custom_user_id')
+            ->references('id')->on('customusers');
         });
     }
 
