@@ -1,7 +1,22 @@
 @extends('layout.mainlayout') 
 @section('content')
 <div class="container">
-  @include('layout.partials.actions')
+  @include('layout.partials.actions') 
+    @if(session()->has('succesfuly'))
+      <div class="alert alert-success alert-dismissible fade show" role="alert">{{ session('succesfuly') }} 
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+      @php
+      session()->forget('succesfuly');
+      @endphp
+      </div>
+    @elseif(session()->has('error'))
+      <div class="alert alert-danger alert-dismissible fade show" role="alert"> {{ session('error') }}
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+      @php
+          session()->forget('error');
+      @endphp
+      </div>
+    @endif
   <table class="table table-striped">
     <thead class="thead-dark">
       <tr>
@@ -23,7 +38,7 @@
         <td>{{ $trip['origin'] }}</td>
         <td>{{ $trip['destination'] }}</td>
         <td>{{ $trip['startTime'] }}</td>
-        <td>{{ $trip['date'] }}</td>
+        <td>{{ $trip['date']}}</td>
         <td>{{ $trip['cost'] }}</td>
         <td>{{ $trip['duration'] }}</td>
         <td>{{ $trip['periodicity'] }}</td>

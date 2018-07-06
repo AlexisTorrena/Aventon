@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Quotation;
 use DB;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 class TripsController extends Controller
 {
@@ -163,6 +164,13 @@ class TripsController extends Controller
         if($tripId > 0)
         {
           $trip = $trips->find($tripId);
+          $today = Carbon::today()->format('d-m-Y');
+
+          if($trip->date < $today)
+          {
+            session()->flash('error', 'El viaje no esta disponible');  
+            return back();
+          }
         }
         else
         {

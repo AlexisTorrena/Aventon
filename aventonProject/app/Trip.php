@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
 class Trip extends Model
 {
-    //
 
    // protected $primaryKey = 'guid';
     
