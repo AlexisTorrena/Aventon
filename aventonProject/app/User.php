@@ -37,4 +37,15 @@ class User extends Authenticatable
       return \Auth::user()->birthDate;
     }
 
+    public function vehicles()
+    {
+    return $this->hasMany(Vehicle::class);
+    }
+
+
+    public function saveVehicle($idUser, $idVehicle)
+    {
+
+    }
+
 }

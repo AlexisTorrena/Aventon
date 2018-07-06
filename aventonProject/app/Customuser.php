@@ -1,16 +1,16 @@
 <?php
- 
+
 namespace App;
- 
+
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
- 
+
 class CustomUser extends Authenticatable
 {
     use Notifiable;
- 
+
     protected $table = 'customusers';
- 
+
     /**
      * The attributes that are mass assignable.
      *
@@ -19,7 +19,7 @@ class CustomUser extends Authenticatable
     protected $fillable = [
         'name', 'email', 'password','birthDate'
     ];
- 
+
     /**
      * The attributes that should be hidden for arrays.
      *
@@ -35,8 +35,14 @@ class CustomUser extends Authenticatable
     }
 
     public function postulations(){
-        
+
         return $this->belongsToMany('App\Trip', 'postulations', 'user_id', 'trip_id');
     }
- 
+
+
+    public function vehicles()
+    {
+        return $this->hasMany(Vehicle::class);
+    }
+
 }

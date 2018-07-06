@@ -33,6 +33,8 @@ Route::get('/Users', function(){
 
 Route::get('/perfil', 'UserController@show');
 
+Route::get('/myVehicles', 'UserController@showVehicles');
+
 Auth::routes();
 
 Route::get('/tripprueba', 'HomeController@prueba');

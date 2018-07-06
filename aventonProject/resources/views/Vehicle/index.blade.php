@@ -10,7 +10,6 @@
             <th>Modelo</th>
             <th>Patente</th>
             <th>Numero de asientos</th>
-            <th width="200">Detalle</th>
           </tr>
       </thead>
       <tbody>
@@ -20,7 +19,6 @@
             <td>{{ $vehicle['model'] }}</td>
             <td>{{ $vehicle['patent'] }}</td>
             <td>{{ $vehicle['seats'] }}</td>
-            <td><a class="button hollow" href="./details.html">Ver</a></td>
           </tr>
           @endforeach
       </tbody>
