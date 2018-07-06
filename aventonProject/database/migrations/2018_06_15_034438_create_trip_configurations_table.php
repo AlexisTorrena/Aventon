@@ -21,7 +21,7 @@ class CreateTripConfigurationsTable extends Migration
             $table->integer('cost');
             $table->time('startTime');
             $table->date('startDate');
-            $table->date('endDate');
+            $table->date('endDate')->nullable();
             $table->enum('periodicity', ['Unica','Diaria','Semanal','Mensual']);
             $table->timestamps();
         });

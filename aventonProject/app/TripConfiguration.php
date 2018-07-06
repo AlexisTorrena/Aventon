@@ -9,12 +9,17 @@ class TripConfiguration extends Model
 {
     public function setstartDateAttribute($value)
     {
-        $this->attributes['startDate'] = Carbon::createFromFormat('d/m/Y', $value);
+        if (!empty($value)) {
+            $this->attributes['startDate'] = Carbon::createFromFormat('d/m/Y', $value);
+        }
     }
 
     public function setendDateAttribute($value)
     {
-        $this->attributes['endDate'] = Carbon::createFromFormat('d/m/Y', $value);
+        if (!empty($value)) 
+        {
+            $this->attributes['endDate'] = Carbon::createFromFormat('d/m/Y', $value);
+        }
     }
 
     public function getstartDateAttribute()
@@ -43,7 +48,12 @@ class TripConfiguration extends Model
         $cantOfDays = 0;
         switch ($this->periodicity) {
             case "Unica":
-                //echo "Your favorite color is red!";
+                $trip = new Trip;
+                $trip->trip_config_id= $this->id;
+                $trip->date = $this->startDate->copy();
+                $trip->status = 'Abierto';
+                $trip->id = 0;
+                $gTrips->push($trip);
                 break;
             case "Diaria":
                 //<= becasue if same day it will be zero

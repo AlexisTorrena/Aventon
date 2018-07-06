@@ -19,8 +19,25 @@ class Trip extends Model
         {
             $date = $date->format('d-m-Y');
         }
+        else
+        {
+            $date = Carbon::createFromFormat('Y-m-d', $date);
+            $date = $date->format('d-m-Y');
+        }
 
         return $date;
+    }
+
+    public function setdateAttribute($value)
+    {
+        if (!is_object($value)) 
+        {
+            $this->attributes['date'] = Carbon::createFromFormat('d-m-Y', $value);
+        }
+        else
+        {
+            $this->attributes['date'] = $value;
+        }
     }
 
     public function getshareLinkAttribute()

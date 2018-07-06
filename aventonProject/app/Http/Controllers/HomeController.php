@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Trip as Trip;
+use App\TripConfiguration as TripConfiguration;
 
 class HomeController extends Controller
 {
@@ -24,8 +25,20 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $trip = new Trip;
-        $trips = $trip->all();
+        $tripConfiguration = new TripConfiguration;
+        $configurations = $tripConfiguration->all();
+        
+        $tripsToShow = collect(new Trip);
+        //Show fake trips + real trips but removing duplicated ones.
+        foreach ($configurations as $configuration)
+        {
+            $goshtTrips = $configuration->goshtTrips->keyBy('date');
+            $realTrips = $configuration->trips->keyBy('date');
+            $trips = $goshtTrips->merge($realTrips);
+            $tripsToShow = $tripsToShow->concat($trips);
+        }
+
+        $trips = $tripsToShow;
         return view('Trips/index')->with('trips',$trips);
     }
 

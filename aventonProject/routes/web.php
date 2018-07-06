@@ -37,7 +37,7 @@ Auth::routes();
 
 Route::get('/tripprueba', 'HomeController@prueba');
 
-Route::get('/postulate/{id}', 'TripsController@postulate');
+Route::get('/postulate/{tripConfig}/{date}/{id}', 'TripsController@postulate');
 
 Route::get('/Trips/detail/{tripConfig}/{date}/{id}', 'TripsController@detail');
 

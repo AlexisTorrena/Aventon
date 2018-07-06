@@ -21,15 +21,17 @@ class TripsController extends Controller
         $tripConfiguration = new TripConfiguration;
         $configurations = $tripConfiguration->all();
 
-        $trips = collect(new Trip);
+        $tripsToShow = collect(new Trip);
+        //Show fake trips + real trips but removing duplicated ones.
         foreach ($configurations as $configuration)
         {
-            $temp = $configuration->trips;
-            $trips = $trips->concat($temp);
-            $temp = $configuration->goshtTrips;
-            $trips = $trips->concat($temp);
+            $goshtTrips = $configuration->goshtTrips->keyBy('date');
+            $realTrips = $configuration->trips->keyBy('date');
+            $trips = $goshtTrips->merge($realTrips);
+            $tripsToShow = $tripsToShow->concat($trips);
         }
 
+        $trips = $tripsToShow;
         return view('Trips/index')->with('trips',$trips);
     }
 
@@ -65,16 +67,18 @@ class TripsController extends Controller
 
         $tripConfiguration = new TripConfiguration;
         $configurations = $tripConfiguration->all();
-
-        $trips = collect(new Trip);
+        
+        $tripsToShow = collect(new Trip);
+        //Show fake trips + real trips but removing duplicated ones.
         foreach ($configurations as $configuration)
         {
-            $temp = $configuration->trips;
-            $trips = $trips->concat($temp);
-            $temp = $configuration->goshtTrips;
-            $trips = $trips->concat($temp);
+            $goshtTrips = $configuration->goshtTrips->keyBy('date');
+            $realTrips = $configuration->trips->keyBy('date');
+            $trips = $goshtTrips->merge($realTrips);
+            $tripsToShow = $tripsToShow->concat($trips);
         }
 
+        $trips = $tripsToShow;
         return view('Trips/index')->with('trips',$trips);
     }
 
@@ -123,11 +127,29 @@ class TripsController extends Controller
         //
     }
 
-    public function postulate($id){
+    public function postulate($tripConfig,$date,$tripId){
+        $trips = new Trip;
+        $trip;
+
+        if($tripId > 0)
+        {
+          $trip = $trips->find($tripId);
+        }
+        else
+        {
+            $trips = new Trip;
+            $trips->date = $date;
+            $trips->trip_config_id = $tripConfig;
+            $trips->status = 'Abierto';
+            $trips->save();
+            $trip = $trips;
+        }
+        
+        $tripId = $trip->id;
 
         DB::table('postulations')->insert(
             ['user_id' => Auth::user()->id,
-            'trip_id' => $id]
+            'trip_id' => $tripId]
         );
 
         return back()->with('succesfuly', 'Te postulaste! Ahora tenés que esperar que el dueño de la publicación te acepte.');
