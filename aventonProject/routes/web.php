@@ -35,6 +35,14 @@ Route::get('/perfil', 'UserController@show');
 
 Route::get('/myVehicles', 'UserController@showVehicles');
 
+Route::get('/modifyVehicle/{id}', 'VehicleController@modifyVehicle');
+
+Route::get('/removeVehicle/{id}', 'VehicleController@removeVehicle');
+
+Route::post('/vehicleModifyStore', 'VehicleController@storeModify');
+
+
+
 Auth::routes();
 
 Route::get('/tripprueba', 'HomeController@prueba');
