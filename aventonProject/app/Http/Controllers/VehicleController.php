@@ -39,8 +39,57 @@ class VehicleController extends Controller
   public function index()
   {
       $vehicle = new Vehicle;
-      $vehicle = $vehicle->all();
-
-      return view('Vehicle/index')->with('vehicles',$vehicle);
+      $vehicle = (array)$vehicle->all();
+       if (true) {
+        return view('Vehicle/withoutVehicles');
+       }else{
+         return view('Vehicle/index')->with('vehicles',$vehicle);
+       }
   }
+
+  public function modifyVehicle($idVehicle)
+  {
+    $vehicle = new Vehicle;
+
+    if( $this->checkOwner($idVehicle) ){
+      $vehicle = Vehicle::where('id', $idVehicle)->get();
+      return view('Vehicle/modifyVehicle')->with('vehicles',$vehicle->first());
+    }else{
+       return view('Vehicle/errorAccion')->with('mensaje', 'No tenés permisos para modificar este vehículo');
+    }
+  }
+
+  public function removeVehicle($idVehicle)
+  {
+    $vehicle = new Vehicle;
+    if($this->checkOwner($idVehicle)){
+      $vehicle = Vehicle::destroy($idVehicle);
+      $this->index();
+      return view('Vehicle/succesAction')->with('mensaje', 'Se borró el vehículo');
+     }else{
+      return view('Vehicle/errorAccion')->with('mensaje', 'No tenés permisos para eliminar este vehículo');
+   }
+  }
+
+  public function storeModify(Request $request)
+  {
+    $idVehicle = $request->input('idVehicle');
+    $vehicle = Vehicle::find($idVehicle);
+    $vehicle->brand = $request -> input('brandVehicle');
+    $vehicle->model = $request -> input('modelVehicle');
+    $vehicle->patent = $request -> input('patentVehicle');
+    $vehicle->seats = $request -> input('numberOfSeats');
+    if($vehicle->save()){
+       return back()->with('succesfuly', 'Vehiculo modificado');
+    }else{
+      return back()->with('error', 'Error al modificar el vehiculo, por favor intente de nuevo!');
+    }
+  }
+
+  public function checkOwner($idVehicle)
+  {
+    return (Auth::user()->vehicles->find($idVehicle) ) ;
+    //return ($usr->where('id', $idVehicle));
+  }
+
 }

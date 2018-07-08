@@ -54,7 +54,12 @@ class UserController extends Controller
     public function showVehicles(){
 
       $vehicles = Auth::user()->vehicles;
-      return view('Vehicle/index')->with('vehicles',$vehicles);
+      if ($vehicles->isEmpty()) {
+       return view('Vehicle/withoutVehicles');
+      }else{
+        return view('Vehicle/index')->with('vehicles',$vehicles);
+      }
+      // return view('Vehicle/index')->with('vehicles',$vehicles);
 
     }
 
