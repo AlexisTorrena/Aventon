@@ -44,3 +44,5 @@ Route::get('/postulate/{tripConfig}/{date}/{id}', 'TripsController@postulate');
 Route::get('/Trips/detail/{tripConfig}/{date}/{id}', 'TripsController@detail');
 
 Route::get('/registrationCompleted', 'HomeController@regCompleted');
+
+Route::get('/myTrips', 'UserController@showTrips');
