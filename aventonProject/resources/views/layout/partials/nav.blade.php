@@ -4,8 +4,17 @@
     <ul class="navbar-nav ml-auto">
       <!-- Authentication Links -->
       @guest
-      <a class="nav-brand" href="{{ route('login') }}">{{ __('Iniciar sesión') }}</a>
-      <a class="nav-brand" href="{{ route('register') }}">{{ __('Registrar') }}</a>
+      <ul class="nav justify-content-end">
+            <li class="nav-item">
+              <a  class="nav-link" href="{{ route('login') }}">{{ __('Iniciar sesión') }}</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link">|</a>
+            </li>
+            <li class="nav-item">
+              <a  class="nav-link" href="{{ route('register') }}">{{ __('Registrar') }}</a>
+            </li>
+      </ul>
       @else
       <li class="nav-item dropdown">
         <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true"
@@ -14,14 +23,14 @@
                 </a>
 
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="/perfil" > {{ __('Perfil') }}</a>
-          <a class="dropdown-item" href="registerTrip" >Dar Aventon!</a>
-          <a class="dropdown-item" href="Trips" >Buscar Aventon</a>
-          <a class="dropdown-item" href="registerVehicle" >Agregar Vehiculo</a>
+          <a class="dropdown-item" href="/perfil" ><i class="fas fa-user-circle"></i> {{ __('Perfil') }}</a>
+          <a class="dropdown-item" href="registerTrip" ><i class="fas fa-plus"></i> Dar Aventon!</a>
+          <a class="dropdown-item" href="Trips" ><i class="fas fa-search" ></i> Buscar Aventon  </a>
+          <a class="dropdown-item" href="registerVehicle" > <i class="fas fa-car"></i> Agregar Vehiculo</a>
           <div class="dropdown-divider"></div>
           <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
                                     document.getElementById('logout-form').submit();">
-                         {{ __('Cerrar sesión') }}
+                        <i class="fas fa-sign-out-alt"></i> {{ __('Cerrar sesión') }}
           </a>
 
           <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
