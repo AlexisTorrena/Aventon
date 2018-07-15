@@ -154,7 +154,7 @@ class TripsController extends Controller
 
             DB::table('passengers')->insert(
                 ['user_id' => $userId,
-                'trip_id' => $trip->d]
+                'trip_id' => $trip->id]
             );
         }
         
@@ -192,6 +192,15 @@ class TripsController extends Controller
             $trips->status = 'Abierto';
             $trips->save();
             $trip = $trips;
+            
+            $tripConfiguration = new TripConfiguration;
+            $configurations = $tripConfiguration->all();
+            $userId = $configurations->find($tripConfig)->custom_user_id;
+
+            DB::table('passengers')->insert(
+                ['user_id' => $userId,
+                'trip_id' => $trip->id]
+            );
         }
         
         $tripId = $trip->id;
@@ -209,8 +218,18 @@ class TripsController extends Controller
 
     }
 
-    public function postAnswer(Request $request, $trip){
-
+    public function postAnswer(Request $request, $id){
+        
+        $question = new Question;
+        $questions = $question->all();
+        $question = $question->find($id);
+        $question -> answer = $request -> input('answer');
+        if($question->save()){
+            return back()->with('succesfuly', 'Respuesta publicada');
+        }else{
+            return back()->with('error', 'Error al publicar la respuesta, por favor intente de nuevo!');
+    
+        }
     }
 
     public function detail($tripConfig,$date,$tripId){
@@ -236,8 +255,11 @@ class TripsController extends Controller
             $trip->date = $date;
         }
         
+        $tripConfiguration = new TripConfiguration;
+            $configurations = $tripConfiguration->all();
+            $ownerId = $configurations->find($tripConfig)->custom_user_id;
         $questions = $trip->questions;
-        return view('Trips/detail', ['trip' => $trip] , ['questions' => $questions]);
+        return view('Trips/detail', array('trip' => $trip , 'questions' => $questions, 'ownerId' => $ownerId));
     }
 
     public function organized(){

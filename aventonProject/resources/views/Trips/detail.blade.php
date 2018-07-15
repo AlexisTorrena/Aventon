@@ -35,11 +35,11 @@
              </tr>
          </tbody>
         </table>
-        @if( $trip['custom_user_id'] != Auth::user()->id )
+        @if( $ownerId != Auth::user()->id )
         <h6>Hacé una pregunta!</h6>
         <form method="GET" action="{{ action('TripsController@postQuestion', ['tripConfig' => $trip->trip_config_id,'date' => $trip->date,'tripId' => $trip->id]) }}">
             <div class="question-field">
-                <input type="text" class="question-text" id="question" name="question" style="width: 600px; height: 100px">
+                <input type="text" class="question-text" id="question" name="question" style="width: 600px; height: 100px" required>
             </div>
             <br>
             <button type="submit" class="btn btn-primary">Publicar pregunta</button>
@@ -98,19 +98,22 @@
                     <img class="rounded-circle" src="/images/img_avatar1.png" alt="Card image" style="width:60px">
                 </div>
                 <div class="media-body">
+                    <p>
                     <form method="GET" action="{{ action('TripsController@postAnswer', [$question -> id]) }}">
                         <div class="answer-field">
-                            <input type="text" class="answer-text" id="answer" name="answer" style="width: 600px; height: 100px">
+                            <input type="text" class="answer-text" id="answer" name="answer" style="width: 500px; height: 100px" required>
                         </div>
                         <br>
                         <button type="submit" class="btn btn-primary">Publicar respuesta</button>
                     </form>
-                    <br>
+                    </p>
                 </div>
-            @endif
             </div>
+            <hr noshade style="height: 2px">
+            @endif
             @endforeach
+        </div>    
         @endif
-        </div>
+        
         @endif
 @endsection
