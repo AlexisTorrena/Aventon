@@ -36,16 +36,21 @@
          </tbody>
         </table>
         @if( $ownerId != Auth::user()->id )
-        <h6>Hacé una pregunta!</h6>
+        
         <form method="GET" action="{{ action('TripsController@postQuestion', ['tripConfig' => $trip->trip_config_id,'date' => $trip->date,'tripId' => $trip->id]) }}">
+            <label align="center" style="width:50%"><h6>Hacé una pregunta!</h6></label>
             <div class="question-field">
-                <input type="text" class="question-text" id="question" name="question" style="width: 600px; height: 100px" required>
+                <input type="text" class="question-text" id="question" name="question" style="width: 50%; height: 100px" required>
             </div>
             <br>
-            <button type="submit" class="btn btn-primary">Publicar pregunta</button>
+                <label align="center" style="width:50%">
+                    <button type="submit" class="btn btn-primary">Publicar pregunta</button>
+                </label>
         </form>
         <br>
-        <div class="media-container" style="width: 100%; border: 1px solid black">
+        @if(!$questions ->isEmpty())
+        <div class="media-container" style="width: 50%; border: 1px solid black">
+            
             @foreach ($questions as $question)
             <div class="media">
                 <div class="media-body" align="right">
@@ -70,8 +75,15 @@
             @endforeach
         </div>
         @else
-        @if (!empty($questions))
-        <div class="media-container" style="width: 100%; border: 1px solid black">
+            <div class="media-container" style="width: 50%; border: 1px solid black">
+                <div class="media-body">
+                    <h6 align="center">No hay preguntas</h6>
+                </div>
+            </div>
+        @endif
+        @else
+        @if (!$questions ->isEmpty())
+        <div class="media-container" style="width: 50%; border: 1px solid black">
             @foreach ($questions as $question)
             <div class="media">
                 <div class="media-body" align="right">
@@ -113,6 +125,12 @@
             @endif
             @endforeach
         </div>    
+        @else
+        <div class="media-container" style="width: 50%; border: 1px solid black">
+                <div class="media-body">
+                    <h6 align="center">No hay preguntas</h6>
+                </div>
+        </div>
         @endif
         
         @endif
