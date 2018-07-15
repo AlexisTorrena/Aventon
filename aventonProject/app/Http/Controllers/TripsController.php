@@ -62,7 +62,8 @@ class TripsController extends Controller
         $tripConfiguration->duration = $request->input('duration');
         $tripConfiguration->startDate = $request->input('startDate');
         $tripConfiguration->endDate = $request->input('endDate');
-        $tripConfiguration->periodicity = $request->input('periodicity'); 
+        $tripConfiguration->periodicity = $request->input('periodicity');
+        $tripConfiguration->custom_user_id = Auth::user()->id;
 
         $tripConfiguration->save();
 
@@ -174,11 +175,36 @@ class TripsController extends Controller
         }
         else
         {
+            //asigna el $date al primer trip que encuentra, solo para mostrar correctamente los datos.
             $trips = new TripConfiguration;
             $trip = $trips->find($tripConfig)->goshtTrips->first();
             $trip->date = $date;
         }
         
         return view('Trips/detail')->with('trip',$trip);
+    }
+
+    public function organized(){
+
+        $tripConfiguration = new TripConfiguration;
+        $userId = Auth::user()->id;
+        $configs = $tripConfiguration->where('custom_user_id',$userId)->get();
+
+        if ($configs->isEmpty()) {
+         return view('Trips/withoutOrganizedTrips');
+        }
+        else
+        {
+            $tripsToShow = collect(new Trip);
+            //Show only real trips
+            foreach ($configs as $configuration) {
+                $realTrips = $configuration->trips->keyBy('date');
+                $tripsToShow = $tripsToShow->concat($realTrips);
+            }
+
+          $trips = $tripsToShow;
+          return view('Trips/organizedTrips')->with('trips', $trips);
+        }
+
     }
 }
