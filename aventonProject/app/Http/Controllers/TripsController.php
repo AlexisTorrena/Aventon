@@ -147,6 +147,15 @@ class TripsController extends Controller
             $trips->status = 'Abierto';
             $trips->save();
             $trip = $trips;
+
+            $tripConfiguration = new TripConfiguration;
+            $configurations = $tripConfiguration->all();
+            $userId = $configurations->find($tripConfig)->custom_user_id;
+
+            DB::table('passengers')->insert(
+                ['user_id' => $userId,
+                'trip_id' => $trip->d]
+            );
         }
         
         $tripId = $trip->id;
@@ -197,6 +206,10 @@ class TripsController extends Controller
             return back()->with('error', 'Error al publicar la pregunta, por favor intente de nuevo!');
     
         }
+
+    }
+
+    public function postAnswer(Request $request, $trip){
 
     }
 
