@@ -1,7 +1,5 @@
 @extends('layout.detailLayout') 
 @section('content')
-
-
  <div class="container">
     <h3 align="center"> Detalle de Viaje</h3>
         @if(session()->has('succesfuly'))

@@ -42,6 +42,10 @@ class User extends Authenticatable
     return $this->hasMany(Vehicle::class);
     }
 
+    public function tripsConfigs()
+    {
+    return $this->hasMany('App\TripConfiguration', 'trip_config_id','id');
+    }
 
     public function saveVehicle($idUser, $idVehicle)
     {
