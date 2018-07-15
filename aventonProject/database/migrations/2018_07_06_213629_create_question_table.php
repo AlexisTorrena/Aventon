@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTripConfigurationsTable extends Migration
+class CreateQuestionTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,20 +13,17 @@ class CreateTripConfigurationsTable extends Migration
      */
     public function up()
     {
-        Schema::create('trip_configurations', function (Blueprint $table) {
+        Schema::create('question', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('origin');
-            $table->string('destination');
-            $table->integer('duration');
-            $table->integer('cost');
-            $table->time('startTime');
-            $table->date('startDate');
-            $table->date('endDate')->nullable();
-            $table->enum('periodicity', ['Unica','Diaria','Semanal','Mensual']);
             $table->timestamps();
+            $table->string('question');
+            $table->string('answer');
             $table->unsignedInteger('custom_user_id');
             $table->foreign('custom_user_id')
             ->references('id')->on('customusers');
+            $table->unsignedInteger('trip_id');
+            $table->foreign('trip_id')
+            ->references('id')->on('trips');
         });
     }
 
@@ -37,6 +34,6 @@ class CreateTripConfigurationsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('trip_configurations');
+        Schema::dropIfExists('question');
     }
 }

@@ -78,4 +78,9 @@ class TripConfiguration extends Model
             }
         return $gTrips;    
     }
+
+    public function owner(){
+
+        return $this->belongsTo('App\Customusers','custom_user_id','id');
+    }
 }
