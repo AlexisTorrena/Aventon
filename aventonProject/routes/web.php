@@ -41,6 +41,8 @@ Route::get('/removeVehicle/{id}', 'VehicleController@removeVehicle');
 
 Route::post('/vehicleModifyStore', 'VehicleController@storeModify');
 
+Route::get('/postQuestion/{tripConfig}/{date}/{id}', 'TripsController@postQuestion');
+
 
 
 Auth::routes();
