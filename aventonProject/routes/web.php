@@ -53,3 +53,5 @@ Auth::routes();
 Route::get('/tripprueba', 'HomeController@prueba');
 
 Route::get('/registrationCompleted', 'HomeController@regCompleted');
+
+Route::get('/myTrips', 'UserController@showTrips');
