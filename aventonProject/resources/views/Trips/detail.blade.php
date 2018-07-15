@@ -45,7 +45,7 @@
             <button type="submit" class="btn btn-primary">Publicar pregunta</button>
         </form>
         <br>
-        <div class="media-container" style="width: 600px; border: 1px solid black">
+        <div class="media-container" style="width: 100%; border: 1px solid black">
             @foreach ($questions as $question)
             <div class="media">
                 <div class="media-body" align="right">
@@ -71,7 +71,7 @@
         </div>
         @else
         @if (!empty($questions))
-        <div class="media-container" style="width: 600px; border: 1px solid black">
+        <div class="media-container" style="width: 100%; border: 1px solid black">
             @foreach ($questions as $question)
             <div class="media">
                 <div class="media-body" align="right">
@@ -101,7 +101,7 @@
                     <p>
                     <form method="GET" action="{{ action('TripsController@postAnswer', [$question -> id]) }}">
                         <div class="answer-field">
-                            <input type="text" class="answer-text" id="answer" name="answer" style="width: 500px; height: 100px" required>
+                            <input type="text" class="answer-text" id="answer" name="answer" style="width: 94%; height: 100px" required>
                         </div>
                         <br>
                         <button type="submit" class="btn btn-primary">Publicar respuesta</button>

@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use App\Customuser;
 use App\Question as Question;
+use Illuminate\Database\Query\Builder;
 
 class TripsController extends Controller
 {
@@ -159,20 +160,27 @@ class TripsController extends Controller
         }
         
         $tripId = $trip->id;
+        $isPassenger = $trip->passengers()->where('user_id', Auth::user()->id)->exists();
         
-        $hasPostulation = Auth::user()->postulations()->where('trip_id', $tripId)->exists();
+        if($isPassenger){
 
-        if($hasPostulation){
-            return back()->with('error', 'Ya estás postulado en este viaje');
+            return back()->with('error', 'Ya sos un pasajero de este viaje');
         }
         else{
-            DB::table('postulations')->insert(
-                ['user_id' => Auth::user()->id,
-                'trip_id' => $tripId]
-            );
-            return back()->with('succesfuly', 'Te postulaste! Ahora tenés que esperar que el dueño de la publicación te acepte.');
-        }        
-        
+            
+            $hasPostulation = Auth::user()->postulations()->where('trip_id', $tripId)->exists();
+
+            if($hasPostulation){
+                return back()->with('error', 'Ya estás postulado en este viaje');
+            }
+            else{
+                DB::table('postulations')->insert(
+                    ['user_id' => Auth::user()->id,
+                    'trip_id' => $tripId]
+                );
+                return back()->with('succesfuly', 'Te postulaste! Ahora tenés que esperar que el dueño de la publicación te acepte.');
+            }        
+        }
     }
 
     public function postQuestion(Request $request,$tripConfig,$date,$tripId){
@@ -210,8 +218,11 @@ class TripsController extends Controller
         $question -> custom_user_id = Auth::user()->id;
         $question -> trip_id = $tripId;
         if($question->save()){
+            
             return back()->with('succesfuly', 'Pregunta publicada');
+        
         }else{
+            
             return back()->with('error', 'Error al publicar la pregunta, por favor intente de nuevo!');
     
         }

@@ -47,7 +47,7 @@ class Trip extends Model
 
     public function passengers(){
         
-        return $this->belongsToMany('App\Customuser', 'trip_user', 'trip_id', 'user_id' );
+        return $this->belongsToMany('App\Customuser', 'passengers', 'trip_id', 'user_id' );
     }
 
     public function postulations(){
