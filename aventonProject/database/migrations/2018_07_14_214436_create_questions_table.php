@@ -20,7 +20,8 @@ class CreateQuestionsTable extends Migration
             $table->string('answer')->nullable();
             $table->unsignedInteger('custom_user_id');
             $table->foreign('custom_user_id')
-            ->references('id')->on('customusers');
+            ->references('id')->on('customusers')
+            ->onDelete('cascade');
             $table->unsignedInteger('trip_id');
             $table->foreign('trip_id')
             ->references('id')->on('trips')

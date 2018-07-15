@@ -24,9 +24,14 @@ class CreateTripConfigurationsTable extends Migration
             $table->date('endDate')->nullable();
             $table->enum('periodicity', ['Unica','Diaria','Semanal','Mensual']);
             $table->timestamps();
+            $table->unsignedInteger('vehicle_id');
+            $table->foreign('vehicle_id')
+            ->references('id')->on('vehicle')
+            ->onDelete('cascade');
             $table->unsignedInteger('custom_user_id');
             $table->foreign('custom_user_id')
-            ->references('id')->on('customusers');
+            ->references('id')->on('customusers')
+            ->onDelete('cascade');
         });
     }
 
