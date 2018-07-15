@@ -9,6 +9,8 @@ use App\Quotation;
 use DB;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
+use App\Customuser;
+use App\Question as Question;
 
 class TripsController extends Controller
 {
@@ -145,17 +147,89 @@ class TripsController extends Controller
             $trips->status = 'Abierto';
             $trips->save();
             $trip = $trips;
+
+            $tripConfiguration = new TripConfiguration;
+            $configurations = $tripConfiguration->all();
+            $userId = $configurations->find($tripConfig)->custom_user_id;
+
+            DB::table('passengers')->insert(
+                ['user_id' => $userId,
+                'trip_id' => $trip->id]
+            );
+        }
+        
+        $tripId = $trip->id;
+        
+        $hasPostulation = Auth::user()->postulations()->where('trip_id', $tripId)->exists();
+
+        if($hasPostulation){
+            return back()->with('error', 'Ya estás postulado en este viaje');
+        }
+        else{
+            DB::table('postulations')->insert(
+                ['user_id' => Auth::user()->id,
+                'trip_id' => $tripId]
+            );
+            return back()->with('succesfuly', 'Te postulaste! Ahora tenés que esperar que el dueño de la publicación te acepte.');
+        }        
+        
+    }
+
+    public function postQuestion(Request $request,$tripConfig,$date,$tripId){
+        
+        $trips = new Trip;
+        $trip;
+
+        if($tripId > 0)
+        {
+          $trip = $trips->find($tripId);
+        }
+        else
+        {
+            $trips = new Trip;
+            $trips->date = $date;
+            $trips->trip_config_id = $tripConfig;
+            $trips->status = 'Abierto';
+            $trips->save();
+            $trip = $trips;
+            
+            $tripConfiguration = new TripConfiguration;
+            $configurations = $tripConfiguration->all();
+            $userId = $configurations->find($tripConfig)->custom_user_id;
+
+            DB::table('passengers')->insert(
+                ['user_id' => $userId,
+                'trip_id' => $trip->id]
+            );
         }
         
         $tripId = $trip->id;
 
-        DB::table('postulations')->insert(
-            ['user_id' => Auth::user()->id,
-            'trip_id' => $tripId]
-        );
+        $question = new Question;
+        $question -> question = $request -> input('question');
+        $question -> custom_user_id = Auth::user()->id;
+        $question -> trip_id = $tripId;
+        if($question->save()){
+            return back()->with('succesfuly', 'Pregunta publicada');
+        }else{
+            return back()->with('error', 'Error al publicar la pregunta, por favor intente de nuevo!');
+    
+        }
 
-        return back()->with('succesfuly', 'Te postulaste! Ahora tenés que esperar que el dueño de la publicación te acepte.');
+    }
+
+    public function postAnswer(Request $request, $id){
         
+        $question = new Question;
+        $questions = $question->all();
+        $question = $question->find($id);
+        $question -> answer = $request -> input('answer');
+        if($question->save()){
+            return back()->with('succesfuly', 'Respuesta publicada');
+        }else{
+            return back()->with('error', 'Error al publicar la respuesta, por favor intente de nuevo!');
+    
+        }
     }
 
     public function detail($tripConfig,$date,$tripId){
@@ -181,7 +255,11 @@ class TripsController extends Controller
             $trip->date = $date;
         }
         
-        return view('Trips/detail')->with('trip',$trip);
+        $tripConfiguration = new TripConfiguration;
+            $configurations = $tripConfiguration->all();
+            $ownerId = $configurations->find($tripConfig)->custom_user_id;
+        $questions = $trip->questions;
+        return view('Trips/detail', array('trip' => $trip , 'questions' => $questions, 'ownerId' => $ownerId));
     }
 
     public function organized(){
