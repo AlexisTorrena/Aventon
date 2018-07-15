@@ -21,7 +21,8 @@ class CreateVehicleTable extends Migration
             $table->integer('seats');
             $table->unsignedInteger('custom_user_id');
             $table->foreign('custom_user_id')
-            ->references('id')->on('customusers');
+            ->references('id')->on('customusers')
+            ->onDelete('cascade');
         });
     }
 

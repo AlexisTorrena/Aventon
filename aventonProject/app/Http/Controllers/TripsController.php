@@ -46,7 +46,8 @@ class TripsController extends Controller
      */
     public function create()
     {
-        return view('Trips/newTrip');
+        $vehicles = Auth::user()->vehicles;
+        return view('Trips/newTrip')->with('vehicles',$vehicles);
     }
 
     /**
@@ -66,6 +67,7 @@ class TripsController extends Controller
         $tripConfiguration->startDate = $request->input('startDate');
         $tripConfiguration->endDate = $request->input('endDate');
         $tripConfiguration->periodicity = $request->input('periodicity');
+        $tripConfiguration->vehicle_id = $request->input('vehicle');
         $tripConfiguration->custom_user_id = Auth::user()->id;
 
         $tripConfiguration->save();
