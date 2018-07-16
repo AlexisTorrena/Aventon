@@ -83,4 +83,9 @@ class TripConfiguration extends Model
 
         return $this->belongsTo('App\Customusers','custom_user_id','id');
     }
+
+    public function vehicle(){
+
+        return $this->belongsTo('App\Vehicle');
+    }
 }

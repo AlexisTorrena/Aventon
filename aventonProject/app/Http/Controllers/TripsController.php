@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use App\Customuser;
 use App\Question as Question;
+use App\Vehicle as Vehicle;
 use Illuminate\Database\Query\Builder;
 
 class TripsController extends Controller
@@ -169,7 +170,19 @@ class TripsController extends Controller
             return back()->with('error', 'Ya sos un pasajero de este viaje');
         }
         else{
-            
+            $numberOfPassengers = sizeOf($trip->passengers);
+            $tripConfiguration = new TripConfiguration;
+            $configurations = $tripConfiguration->all();
+            $vehicleId = $configurations->find($tripConfig)->vehicle_id;
+            $vehicle = new Vehicle;
+            $vehicles = $vehicle->all();
+            $vehicle = $vehicles->find($vehicleId);
+            //dd($vehicle);
+            //dd($vehicle->seats);
+            //dd($passengers);
+
+            if($vehicle->seats > $numberOfPassengers){
+
             $hasPostulation = Auth::user()->postulations()->where('trip_id', $tripId)->exists();
 
             if($hasPostulation){
@@ -181,6 +194,9 @@ class TripsController extends Controller
                     'trip_id' => $tripId]
                 );
                 return back()->with('succesfuly', 'Te postulaste! Ahora tenés que esperar que el dueño de la publicación te acepte.');
+            }
+            }else{
+                return back()->with('error', 'El viaje está lleno');
             }        
         }
     }

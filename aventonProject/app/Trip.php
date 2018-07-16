@@ -93,6 +93,10 @@ class Trip extends Model
         return $this->belongsTo('App\TripConfiguration', 'trip_config_id','id');
     }
 
+    public function vehicle(){
+        
+        return $this->belongsTo('App\Vehicle');
+    }
     public function questions(){
         
         return $this->hasMany('App\Question');
