@@ -88,7 +88,7 @@
       <select class="btn btn-primary dropdown-toggle custom-select" id="vehicle" required name="vehicle">
                         <option value=""><span class="caret">Elige uno!</option>
                         @foreach( $vehicles as $vehicle )
-                        <option value="{{ $vehicle['id'] }}">{{ $vehicle['patent'] }} - {{ $vehicle['seats'] }}</option>
+                        <option value="{{ $vehicle['id'] }}">{{ $vehicle['patent'] }} - {{ $vehicle['seats'] }} lugares</option>
                         @endforeach
       </select>
       <div class="invalid-feedback">Debe seleccionar un vehículo</div>
