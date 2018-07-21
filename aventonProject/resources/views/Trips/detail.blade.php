@@ -1,5 +1,25 @@
 @extends('layout.detailLayout') 
 @section('content')
+<!-- Modal -->
+<div class="modal fade" id="messageWindow" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="messageWindowLabel">Confirmacion</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          ¿Desea cancelar este viaje realmente?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+          <a class="btn btn-primary" href="{{ action('TripsController@cancelTrip', ['tripId' => $trip->id]) }}">Confirmar</a>
+        </div>
+      </div>
+    </div>
+ </div>
  <div class="container">
     <h3 align="center"> Detalle de Viaje</h3>
         @if(session()->has('succesfuly'))
@@ -19,7 +39,11 @@
          <th>Costo</th>
          <th>Duracion</th>
          <th>Frecuencia</th>
+         @if( $ownerId != Auth::user()->id )
          <th width="200">Postulate!</th>
+         @else
+         <th width="200">Accion</th>
+         @endif
          </tr>
         </thead>
          <tbody>
@@ -31,8 +55,16 @@
                   <td>{{ $trip['cost'] }}</td>
                   <td>{{ $trip['duration'] }}</td>
                   <td>{{ $trip['periodicity'] }}</td>
+                  @if( $ownerId != Auth::user()->id )
                   <td><a class="button hollow" href="{{ action('TripsController@postulate', ['tripConfig' => $trip->trip_config_id,'date' => $trip->date,'tripId' => $trip->id]) }}">Postularse</a></td>
-             </tr>
+                  @else
+                  <td>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#messageWindow">
+                                Cancelar
+                        </button>
+                  </td>  
+                  @endif
+                </tr>
          </tbody>
         </table>
         @if( $ownerId != Auth::user()->id )

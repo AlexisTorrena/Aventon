@@ -298,4 +298,27 @@ class TripsController extends Controller
         }
 
     }
+
+    public function cancelTrip($tripId)
+    {
+        $trips = new Trip;
+        $trip = $trips->find($tripId);
+    
+        if ($this->isOwner($trip))
+        {
+            $trip->destroy($tripId);
+            session()->flash('succesfuly', 'Se ha cancelado el viaje');
+            return redirect()->action('TripsController@organized');
+        }else
+        {
+            session()->flash('error', 'No tenés permisos para eliminar este viaje');
+            return back();
+        }
+    }
+
+    public function isOwner($trip)
+    {
+      $userId = Auth::user()->id;
+      return ($trip->TripConfiguration->custom_user_id == $userId);
+    }
 }
