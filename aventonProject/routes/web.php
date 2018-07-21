@@ -25,6 +25,8 @@ Route::get('/postulate/{tripConfig}/{date}/{id}', 'TripsController@postulate');
 
 Route::get('/Trips/detail/{tripConfig}/{date}/{id}', 'TripsController@detail');
 
+Route::get('/Trips/detail/cancel/{id}', 'TripsController@cancelTrip');
+
 Route::get('/Trips/Organized', 'TripsController@organized');
 
 Route::get('/registerVehicle', 'VehicleController@register');
