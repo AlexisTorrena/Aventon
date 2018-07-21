@@ -18,6 +18,15 @@ class Vehicle extends Model
      public function create()
      {
      }
+     
+     public function getSeats(){
+
+        return $this->seats;
+     }
+     public function trips(){
+    
+        return $this->hasMany('App\Trip');
+    }
 
      public function owner(){
 

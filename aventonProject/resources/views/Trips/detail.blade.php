@@ -114,6 +114,27 @@
             </div>
         @endif
         @else
+        @if (!$postulations ->isEmpty())
+        <div class="media-container" style="width: 50%; border: 1px solid black">
+            @foreach ($postulations as $postulation)
+                <div class="media">
+                    <div class="media-body" align="center">
+                        <p><h6>{{ $postulation['name']}} quiere unirse a tu viaje!</h6>     
+                        <a href="{{ action('TripsController@acceptPostulation', ['userId' => $postulation->id, 'tripId' => $trip->id,'tripConfig' => $trip->trip_config_id]) }}" class="btn btn-info" role="button">Aceptar</a>
+                        <a href="{{ action('TripsController@rejectPostulation', ['userId' => $postulation->id, 'tripId' => $trip->id,'tripConfig' => $trip->trip_config_id]) }}" class="btn btn-info" role="button">Rechazar</a></p>
+                    </div>
+                </div>
+                @endforeach
+        </div>            
+        @else
+        <div class="media-container" style="width: 50%; border: 1px solid black">
+            <div class="media">
+                <div class="media-body" align="center">
+                    <p><h6>Todavía no hay postulaciones.</h6></p>
+                </div>
+            </div>
+        </div>
+        @endif   
         @if (!$questions ->isEmpty())
         <div class="media-container" style="width: 50%; border: 1px solid black">
             @foreach ($questions as $question)
