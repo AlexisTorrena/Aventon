@@ -320,9 +320,23 @@ class TripsController extends Controller
     {
         $trips = new Trip;
         $trip = $trips->find($tripId);
-    
+        
+        $today = Carbon::today()->format('d-m-Y');
+        $currentHour = Carbon::now()->toTimeString();
+
         if ($this->isOwner($trip))
         {
+            if($trip->date < $today)
+            {
+              session()->flash('error', 'No Puede cancelar este viaje, espere a ser calificado');  
+              return back();
+            }
+            else if ($trip->date == $today && $trip->TripConfiguration->startTime <=  $currentHour)
+            {
+                session()->flash('error', 'No Puede cancelar este viaje, espere a ser calificado');  
+                return back();
+            }
+            
             $trip->destroy($tripId);
             session()->flash('succesfuly', 'Se ha cancelado el viaje');
             return redirect()->action('TripsController@organized');
