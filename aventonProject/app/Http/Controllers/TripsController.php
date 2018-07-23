@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use App\Customuser;
 use App\Question as Question;
+use App\Vehicle as Vehicle;
 use Illuminate\Database\Query\Builder;
 
 class TripsController extends Controller
@@ -46,7 +47,8 @@ class TripsController extends Controller
      */
     public function create()
     {
-        return view('Trips/newTrip');
+        $vehicles = Auth::user()->vehicles;
+        return view('Trips/newTrip')->with('vehicles',$vehicles);
     }
 
     /**
@@ -66,6 +68,7 @@ class TripsController extends Controller
         $tripConfiguration->startDate = $request->input('startDate');
         $tripConfiguration->endDate = $request->input('endDate');
         $tripConfiguration->periodicity = $request->input('periodicity');
+        $tripConfiguration->vehicle_id = $request->input('vehicle');
         $tripConfiguration->custom_user_id = Auth::user()->id;
 
         $tripConfiguration->save();
@@ -167,7 +170,19 @@ class TripsController extends Controller
             return back()->with('error', 'Ya sos un pasajero de este viaje');
         }
         else{
-            
+            $numberOfPassengers = sizeOf($trip->passengers);
+            $tripConfiguration = new TripConfiguration;
+            $configurations = $tripConfiguration->all();
+            $vehicleId = $configurations->find($tripConfig)->vehicle_id;
+            $vehicle = new Vehicle;
+            $vehicles = $vehicle->all();
+            $vehicle = $vehicles->find($vehicleId);
+            //dd($vehicle);
+            //dd($vehicle->seats);
+            //dd($passengers);
+
+            if($vehicle->seats > $numberOfPassengers){
+
             $hasPostulation = Auth::user()->postulations()->where('trip_id', $tripId)->exists();
 
             if($hasPostulation){
@@ -179,6 +194,9 @@ class TripsController extends Controller
                     'trip_id' => $tripId]
                 );
                 return back()->with('succesfuly', 'Te postulaste! Ahora tenés que esperar que el dueño de la publicación te acepte.');
+            }
+            }else{
+                return back()->with('error', 'El viaje está lleno');
             }        
         }
     }
@@ -269,8 +287,9 @@ class TripsController extends Controller
         $tripConfiguration = new TripConfiguration;
             $configurations = $tripConfiguration->all();
             $ownerId = $configurations->find($tripConfig)->custom_user_id;
-        $questions = $trip->questions;
-        return view('Trips/detail', array('trip' => $trip , 'questions' => $questions, 'ownerId' => $ownerId));
+            $questions = $trip->questions;
+            $postulations = $trip->postulations;
+        return view('Trips/detail', array('trip' => $trip , 'questions' => $questions, 'ownerId' => $ownerId, 'postulations' => $postulations));
     }
 
     public function organized(){
@@ -295,5 +314,92 @@ class TripsController extends Controller
           return view('Trips/organizedTrips')->with('trips', $trips);
         }
 
+    }
+  
+    public function cancelTrip($tripId)
+    {
+        $trips = new Trip;
+        $trip = $trips->find($tripId);
+        
+        $today = Carbon::today()->format('d-m-Y');
+        $currentHour = Carbon::now()->toTimeString();
+
+        if ($this->isOwner($trip))
+        {
+            if($trip->date < $today)
+            {
+              session()->flash('error', 'No Puede cancelar este viaje, espere a ser calificado');  
+              return back();
+            }
+            else if ($trip->date == $today && $trip->TripConfiguration->startTime <=  $currentHour)
+            {
+                session()->flash('error', 'No Puede cancelar este viaje, espere a ser calificado');  
+                return back();
+            }
+            
+            $trip->destroy($tripId);
+            session()->flash('succesfuly', 'Se ha cancelado el viaje');
+            return redirect()->action('TripsController@organized');
+        }else
+        {
+            session()->flash('error', 'No tenés permisos para eliminar este viaje');
+            return back();
+        }
+    }
+
+    public function isOwner($trip)
+    {
+      $userId = Auth::user()->id;
+      return ($trip->TripConfiguration->custom_user_id == $userId);
+    }
+  
+    public function acceptPostulation($userId, $tripId, $tripConfig){
+
+        $trip = new Trip;
+        $trips = $trip->all();
+        $trip = $trips->find($tripId);
+        $numberOfPassengers = sizeOf($trip->passengers);
+        $tripConfiguration = new TripConfiguration;
+        $configurations = $tripConfiguration->all();
+        $vehicleId = $configurations->find($tripConfig)->vehicle_id;
+        $vehicle = new Vehicle;
+        $vehicles = $vehicle->all();
+        $vehicle = $vehicles->find($vehicleId); // Obtiene el vehículo y el número de pasajeros que ya están aceptados incluyendo conductor.
+        
+        if($numberOfPassengers < $vehicle->seats){
+            
+            $user = new Customuser;
+            $users = $user->all();
+            $user = $users->find($userId);
+            DB::table('passengers')->insert(
+            ['user_id' => $userId,
+            'trip_id' => $tripId]
+                );
+        
+            DB::table('postulations')
+                ->where('user_id', '=', $userId)
+                ->where('trip_id', '=', $tripId)->delete();
+
+            return back()->with('succesfuly', 'Postulación aceptada');
+        }else{
+            
+            return back()->with('error', 'El viaje está lleno. No podés aceptar más personas');
+        }
+    }
+
+    public function rejectPostulation($userId, $tripId){
+
+        $trip = new Trip;
+        $trips = $trip->all();
+        $trip = $trips->find($tripId);
+        $user = new Customuser;
+        $users = $user->all();
+        $user = $users->find($userId);
+            
+            DB::table('postulations')
+            ->where('user_id', '=', $userId)
+            ->where('trip_id', '=', $tripId)->delete();
+
+            return back()->with('error', 'Postulación rechazada');
     }
 }

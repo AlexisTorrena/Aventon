@@ -39,7 +39,7 @@ class User extends Authenticatable
 
     public function vehicles()
     {
-    return $this->hasMany(Vehicle::class);
+    return $this->hasMany('App\Vehicle');
     }
 
     public function tripsConfigs()
@@ -52,4 +52,8 @@ class User extends Authenticatable
 
     }
 
+    public function questions(){
+
+        return $this->hasMany('App\Questions');
+    }
 }

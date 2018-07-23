@@ -82,6 +82,18 @@
         </div>
       </div>
     </div>
+    <div class="row">
+      <div class="form-group dropdown col">
+      <label for="vehicle">Vehículo:</label>
+      <select class="btn btn-primary dropdown-toggle custom-select" id="vehicle" required name="vehicle">
+                        <option value=""><span class="caret">Elige uno!</option>
+                        @foreach( $vehicles as $vehicle )
+                        <option value="{{ $vehicle['id'] }}">{{ $vehicle['patent'] }} - {{ $vehicle['seats'] }} lugares</option>
+                        @endforeach
+      </select>
+      <div class="invalid-feedback">Debe seleccionar un vehículo</div>
+      </div>
+    </div>
     <button type="submit" class="btn btn-primary float-right">Guardar</button>
   </form>
 </div>

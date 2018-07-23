@@ -29,16 +29,16 @@
         <a class="nav-link" href="/perfil" >{{ __('Perfil') }}</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="registerTrip" >Dar Aventon!</a>
+        <a class="nav-link" href="/registerTrip" >Dar Aventon!</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="Trips" >Buscar Aventon</a>
+        <a class="nav-link" href="/Trips" >Buscar Aventon</a>
       </li>
       <li class="nav-item">
-          <a class="nav-link" href="Trips/Organized">Mis Aventones Organizados</a>
+          <a class="nav-link" href="/Trips/Organized">Mis Aventones Organizados</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="registerVehicle" >Agregar Vehiculo</a>
+        <a class="nav-link" href="/registerVehicle" >Agregar Vehiculo</a>
       </li>
       <li class="nav-item">
           <a class="nav-link" href="{{ route('logout') }}" onclick="event.preventDefault();
