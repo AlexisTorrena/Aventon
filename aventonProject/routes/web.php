@@ -50,6 +50,8 @@ Route::get('/postQuestion/{tripConfig}/{date}/{id}', 'TripsController@postQuesti
 
 Route::get('/postAnswer/{question_id}', 'TripsController@postAnswer');
 
+//Search Route
+Route::post('/search', 'HomeController@filters');
 
 
 Auth::routes();
