@@ -13,6 +13,7 @@ use App\Customuser;
 use App\Question as Question;
 use App\Vehicle as Vehicle;
 use Illuminate\Database\Query\Builder;
+use App\Score as Score;
 
 class TripsController extends Controller
 {
@@ -402,4 +403,30 @@ class TripsController extends Controller
 
             return back()->with('error', 'Postulación rechazada');
     }
+
+    public function rateTrip($request)
+    {
+       $score = new Score;
+       $tripId = $request->input('trip_id');
+       //logged in user
+       $userId = Auth::user()->id;
+
+       $existScore = $score->all()->where('trip_id','=',$tripId)->where('qualifier_id','=',$userId)->get();
+       
+       if($existScore->isEmpty())
+       {
+            $score->comment = $request->input('comment');
+            $score->value = $request->input('value');
+            $score->trip_id = $request->input('trip_id');
+            $score->qualifier_id = $userId;
+            //the person I am rating
+            $score->owner_id = $request->input('owner_id');
+            $score->save();
+       }
+       else
+       {
+        return back()->with('error', 'ya calificaste este viaje!');
+       }
+       
+    } 
 }

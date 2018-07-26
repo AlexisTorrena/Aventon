@@ -66,7 +66,7 @@
                   @endif
                 </tr>
          </tbody>
-        </table>
+    </table>
         @if( $ownerId != Auth::user()->id )
         
         <form method="GET" action="{{ action('TripsController@postQuestion', ['tripConfig' => $trip->trip_config_id,'date' => $trip->date,'tripId' => $trip->id]) }}">
@@ -187,4 +187,9 @@
         @endif
         
         @endif
+    
+        {{-- This sections belongs to Rating --}}
+    <h1>Calificar</h1>
+    @include('layout.partials.fiveStarControl')
+ </div>
 @endsection

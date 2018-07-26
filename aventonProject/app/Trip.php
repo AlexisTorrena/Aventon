@@ -85,6 +85,11 @@ class Trip extends Model
         return $this->TripConfiguration->startTime;
     }
 
+    public function getIsRatableAttribute()
+    {
+        return true;
+    }
+
     /**
     * Get the configuration that owns the trip.
     */
@@ -100,5 +105,10 @@ class Trip extends Model
     public function questions(){
         
         return $this->hasMany('App\Question');
+    }
+
+    public function scores(){
+        
+        return $this->hasMany('App\Score');
     }
 }
