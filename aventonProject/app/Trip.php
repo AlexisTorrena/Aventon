@@ -50,6 +50,26 @@ class Trip extends Model
         return $this->belongsToMany('App\Customuser', 'passengers', 'trip_id', 'user_id' );
     }
 
+    public function passengersToScore(){
+
+        $passengers = $this->passengers->keyBy('user_id');
+
+        $scores = $this->scores;
+
+        $alreadyScored = collect([]);
+
+        foreach ($scores as $score) 
+        {
+            $alreadyScored->push($score->qualifier_id);
+        }
+
+        $filtered = $passengers->reject(function ($value, $key) {
+            return $alreadyScored->contains($value);
+        });
+
+        return $filtered; 
+    }
+
     public function postulations(){
 
         return $this->belongsToMany('App\Customuser', 'postulations', 'trip_id', 'user_id');

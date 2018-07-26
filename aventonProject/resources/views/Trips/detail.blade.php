@@ -190,6 +190,30 @@
     
         {{-- This sections belongs to Rating --}}
     <h1>Calificar</h1>
-    @include('layout.partials.fiveStarControl')
+     
+     @if (!$trip->passengersToScore->isEmpty())
+       <p>Por favor califica a tus pasajeros!</p>
+        @foreach ($trip->passengersToScore as $passanger)
+        <div class="media">
+                <div class="media-left">
+                 <p>Califica al usuario </p>
+                </div>
+                <div class="media-left">
+                    @include('layout.partials.fiveStarControl')
+                </div>
+                <div class="media-body">
+                    <p>
+                    <form method="POST" action="{{ action('TripsController@postAnswer', [$question -> id]) }}">
+                        <div class="answer-field">
+                            <input type="text" class="answer-text" id="answer" name="answer" style="width: 94%; height: 100px" required>
+                        </div>
+                        <br>
+                        <button type="submit" class="btn btn-primary">Calificar</button>
+                    </form>
+                    </p>
+                </div>
+            </div>
+            <hr noshade style="height: 2px">
+     @endif
  </div>
 @endsection

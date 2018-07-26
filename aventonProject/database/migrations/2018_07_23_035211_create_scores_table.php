@@ -15,7 +15,7 @@ class CreateScoresTable extends Migration
     {
         Schema::create('scores', function (Blueprint $table) {
             $table->increments('id');
-            $table->int('value');
+            $table->integer('value');
             $table->string('comment');
             $table->unsignedInteger('owner_id');
             $table->foreign('owner_id')
