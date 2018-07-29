@@ -1,9 +1,7 @@
-@extends('layout.mainlayout') 
+@extends('layout.mainlayout')
 @section('content')
-<div class="container">
-  @include('layout.partials.actions') 
     @if(session()->has('succesfuly'))
-      <div class="alert alert-success alert-dismissible fade show" role="alert">{{ session('succesfuly') }} 
+      <div class="alert alert-success alert-dismissible fade show" role="alert">{{ session('succesfuly') }}
       <button type="button" class="close" data-dismiss="alert">&times;</button>
       @php
       session()->forget('succesfuly');
@@ -17,6 +15,39 @@
       @endphp
       </div>
     @endif
+    <div class="navbar navbar-light ">
+      <form  method="POST" action="/search" class="form-inline">
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon1">Origen</span>
+          </div>
+          @if(isset($filter['origin']))
+          <input class="form-control mr-sm-2" type="text" id='origin' name='origin' placeholder="{{ $filter['origin'] }}" aria-label="Search">
+          @else
+          <input class="form-control mr-sm-2" type="text" id='origin' name='origin' placeholder="..." aria-label="Search">
+          @endif
+        </div>
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon1">Destino</span>
+          </div>
+          @if(isset($filter['destination']))
+          <input class="form-control mr-sm-2" type="text" id='destination' name='destination' placeholder="{{ $filter['destination'] }}" aria-label="Search">
+          @else
+          <input class="form-control mr-sm-2" type="text" id='destination' name='destination' placeholder="..." aria-label="Search">
+          @endif
+        </div>
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon1">Fecha</span>
+          </div>
+          <input class="form-control mr-sm-2" name="dates" id="dates" type="date" placeholder="" aria-label="Search">
+        </div>
+        <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Buscar</button>
+        {!! csrf_field() !!}
+      </form>
+    </div>
+
   <table class="table table-striped">
     <thead class="thead-dark">
       <tr>

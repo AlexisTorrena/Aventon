@@ -52,6 +52,9 @@ Route::get('/postQuestion/{tripConfig}/{date}/{id}', 'TripsController@postQuesti
 
 Route::get('/postAnswer/{question_id}', 'TripsController@postAnswer');
 
+//Search Route
+Route::post('/search', 'HomeController@filters');
+
 Route::get('/acceptPostulation/{userId}/{tripId}/{tripConfig}', 'TripsController@acceptPostulation');
 
 Route::get('/rejectPostulation/{userId}/{tripId}/{tripConfig}', 'TripsController@rejectPostulation');

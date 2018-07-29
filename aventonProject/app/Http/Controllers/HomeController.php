@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Trip as Trip;
+use Carbon\Carbon;
+
 use App\TripConfiguration as TripConfiguration;
 
 class HomeController extends Controller
@@ -27,7 +29,7 @@ class HomeController extends Controller
     {
         $tripConfiguration = new TripConfiguration;
         $configurations = $tripConfiguration->all();
-        
+
         $tripsToShow = collect(new Trip);
         //Show fake trips + real trips but removing duplicated ones.
         foreach ($configurations as $configuration)
@@ -40,6 +42,35 @@ class HomeController extends Controller
 
         $trips = $tripsToShow;
         return view('Trips/index')->with('trips',$trips);
+    }
+
+    public function filters(Request $request)
+    {
+        $origin = $request->input('origin');
+        $destination = $request->input('destination');
+        $dates = $request->input('dates');
+        // $tripConfiguration = TripConfiguration::all();
+        $tripConfiguration = TripConfiguration::where([
+                                                        ['origin', 'like', '%'.$origin.'%'],
+                                                        ['destination', 'like', '%'.$destination.'%'],
+                                                      ])->get();
+       //dd($destination, $origin , $dates, $tripConfiguration);
+        $configurations = $tripConfiguration->all();
+        $tripsToShow = collect(new Trip);
+        //Show fake trips + real trips but removing duplicated ones.
+        foreach ($configurations as $configuration)
+        {
+            $goshtTrips = $configuration->goshtTrips->keyBy('date');
+            $realTrips = $configuration->trips->keyBy('date');
+            $trips = $goshtTrips->merge($realTrips);
+            $tripsToShow = $tripsToShow->concat($trips);
+        }
+        $dateSearch = Carbon::parse($dates)->format('d-m-Y');
+        // dd($tripsToShow, $dateSearch);
+        $trips = $tripsToShow->where('date', '=', $dateSearch);
+        $filter = array('date' => $dateSearch, 'origin' => $origin, 'destination' => $destination);
+        // dd($filter);
+        return view('Trips/index')->with('trips',$trips)->with('filter',$filter);
     }
 
     public function prueba(){
