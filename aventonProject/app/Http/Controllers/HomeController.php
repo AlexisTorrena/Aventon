@@ -70,7 +70,12 @@ class HomeController extends Controller
         $trips = $tripsToShow->where('date', '=', $dateSearch);
         $filter = array('date' => $dateSearch, 'origin' => $origin, 'destination' => $destination);
         // dd($filter);
-        return view('Trips/index')->with('trips',$trips)->with('filter',$filter);
+        if ( $trips->count() > 0 ){
+          return view('Trips/index')->with('trips',$trips)->with('filter',$filter);
+        }else{
+          $msg = 'No se encontraron viajes disponibles';
+          return view('Trips/errSearch')->with('msg',$msg);
+        }
     }
 
     public function prueba(){
