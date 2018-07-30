@@ -81,7 +81,7 @@ class TripConfiguration extends Model
 
     public function owner(){
 
-        return $this->belongsTo('App\Customusers','custom_user_id','id');
+        return $this->belongsTo('App\CustomUser','custom_user_id','id');
     }
 
     public function vehicle(){

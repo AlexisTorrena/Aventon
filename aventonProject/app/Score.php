@@ -10,12 +10,12 @@ class Score extends Model
 
     public function owner(){
 
-        return $this->belongsTo('App\Customusers','owner_id','id');
+        return $this->belongsTo('App\CustomUser','owner_id','id');
     }
 
     public function qualifier(){
 
-        return $this->belongsTo('App\Customusers','qualifier_id','id');
+        return $this->belongsTo('App\CustomUser','qualifier_id','id');
     }
 
     public function trip(){

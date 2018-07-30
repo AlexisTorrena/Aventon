@@ -404,24 +404,29 @@ class TripsController extends Controller
             return back()->with('error', 'Postulación rechazada');
     }
 
-    public function rateTrip($request)
+    public function rateTrip(Request $request)
     {
-       $score = new Score;
-       $tripId = $request->input('trip_id');
+       $score = new Score; 
+       $tripId = $request->input('tripId');
        //logged in user
        $userId = Auth::user()->id;
+       $ownerId = $request->input('ownerId');
 
-       $existScore = $score->all()->where('trip_id','=',$tripId)->where('qualifier_id','=',$userId)->get();
+       $existScore = Score::where('trip_id','=',$tripId)
+                            ->where('qualifier_id','=',$userId)
+                            ->where('owner_id','=',$ownerId)
+                            ->get();
        
        if($existScore->isEmpty())
        {
             $score->comment = $request->input('comment');
-            $score->value = $request->input('value');
-            $score->trip_id = $request->input('trip_id');
+            $score->value = $request->input('rating');
+            $score->trip_id = $request->input('tripId');
             $score->qualifier_id = $userId;
             //the person I am rating
-            $score->owner_id = $request->input('owner_id');
+            $score->owner_id = $request->input('ownerId');
             $score->save();
+            return redirect()->back();
        }
        else
        {

@@ -21,6 +21,8 @@ Route::get('/registerTrip', 'TripsController@create');
 
 Route::post('/Trips', 'TripsController@store');
 
+Route::post('/Trips/rate', 'TripsController@rateTrip');
+
 Route::get('/postulate/{tripConfig}/{date}/{id}', 'TripsController@postulate');
 
 Route::get('/Trips/detail/{tripConfig}/{date}/{id}', 'TripsController@detail');

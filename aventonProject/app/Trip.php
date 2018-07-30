@@ -4,6 +4,8 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
+use App\Score;
+use Illuminate\Support\Facades\Auth;
 class Trip extends Model
 {
 
@@ -47,12 +49,12 @@ class Trip extends Model
 
     public function passengers(){
         
-        return $this->belongsToMany('App\Customuser', 'passengers', 'trip_id', 'user_id' );
+        return $this->belongsToMany('App\CustomUser', 'passengers', 'trip_id', 'user_id');
     }
 
-    public function passengersToScore(){
+    public function getpassengersToScoreAttribute(){
 
-        $passengers = $this->passengers->keyBy('user_id');
+        $passengers = $this->passengers;
 
         $scores = $this->scores;
 
@@ -60,19 +62,40 @@ class Trip extends Model
 
         foreach ($scores as $score) 
         {
-            $alreadyScored->push($score->qualifier_id);
+            $alreadyScored->push($score->owner_id);
         }
 
-        $filtered = $passengers->reject(function ($value, $key) {
-            return $alreadyScored->contains($value);
-        });
+        $filtered = $passengers->whereNotIn('id',$alreadyScored);
 
         return $filtered; 
     }
 
+    public function getalreadyRatedByMeAttribute()
+    {
+        //logged in user
+       $userId = Auth::user()->id;
+       
+       $found = Score::where('trip_id','=',$this->id)->where('qualifier_id','=',$userId)->get();
+        return !$found->isEmpty();
+    }
+
+    //calificaciones para el usuario $id, puede ser el owner o no, no importa
+    public function scoresForUser($id)
+    {
+        $scores = Score::where('trip_id','=',$this->id)->where('owner_id','=',$id)->get();
+        return $scores;
+    }
+
+    //calificaciones que dio el usuario $id, puede ser el owner o no, no importa
+    public function myScores($id)
+    {
+        $scores = Score::where('trip_id','=',$this->id)->where('qualifier_id','=',$id)->get();
+        return $scores;
+    }
+
     public function postulations(){
 
-        return $this->belongsToMany('App\Customuser', 'postulations', 'trip_id', 'user_id');
+        return $this->belongsToMany('App\CustomUser', 'postulations', 'trip_id', 'user_id');
     }
 
     public function getoriginAttribute()

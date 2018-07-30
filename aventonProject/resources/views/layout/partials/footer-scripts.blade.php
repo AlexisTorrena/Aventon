@@ -81,4 +81,4 @@
         $("#endDate").prop('disabled', true);
       }
     }
-    </script>
+</script>
