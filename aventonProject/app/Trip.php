@@ -4,6 +4,8 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
+use App\Score;
+use Illuminate\Support\Facades\Auth;
 class Trip extends Model
 {
 
@@ -47,12 +49,56 @@ class Trip extends Model
 
     public function passengers(){
         
-        return $this->belongsToMany('App\Customuser', 'passengers', 'trip_id', 'user_id' );
+        return $this->belongsToMany('App\CustomUser', 'passengers', 'trip_id', 'user_id');
+    }
+
+    public function getpassengersToScoreAttribute(){
+
+        $passengers = $this->passengers;
+
+        $scores = $this->scores;
+
+        $alreadyScored = collect([]);
+
+        //set id of the trip owner as alredy score, just to not able to auto rate him self.
+        $alreadyScored->push($this->TripConfiguration->owner->id);
+
+        foreach ($scores as $score) 
+        {
+            $alreadyScored->push($score->owner_id);
+        }
+
+        $filtered = $passengers->whereNotIn('id',$alreadyScored);
+
+        return $filtered; 
+    }
+
+    public function getalreadyRatedByMeAttribute()
+    {
+        //logged in user
+       $userId = Auth::user()->id;
+       
+       $found = Score::where('trip_id','=',$this->id)->where('qualifier_id','=',$userId)->get();
+        return !$found->isEmpty();
+    }
+
+    //calificaciones para el usuario $id, puede ser el owner o no, no importa
+    public function scoresForUser($id)
+    {
+        $scores = Score::where('trip_id','=',$this->id)->where('owner_id','=',$id)->get();
+        return $scores;
+    }
+
+    //calificaciones que dio el usuario $id, puede ser el owner o no, no importa
+    public function myScores($id)
+    {
+        $scores = Score::where('trip_id','=',$this->id)->where('qualifier_id','=',$id)->get();
+        return $scores;
     }
 
     public function postulations(){
 
-        return $this->belongsToMany('App\Customuser', 'postulations', 'trip_id', 'user_id');
+        return $this->belongsToMany('App\CustomUser', 'postulations', 'trip_id', 'user_id');
     }
 
     public function getoriginAttribute()
@@ -85,6 +131,15 @@ class Trip extends Model
         return $this->TripConfiguration->startTime;
     }
 
+    public function getIsRatableAttribute()
+    {
+        $cant = $this->passengers->count();
+        $today = Carbon::today();
+        $date = Carbon::createFromFormat('d-m-Y', $this->date);
+
+        return $cant > 1 && $date->lt($today);
+    }
+
     /**
     * Get the configuration that owns the trip.
     */
@@ -100,5 +155,10 @@ class Trip extends Model
     public function questions(){
         
         return $this->hasMany('App\Question');
+    }
+
+    public function scores(){
+        
+        return $this->hasMany('App\Score');
     }
 }

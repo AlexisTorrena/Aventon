@@ -13,6 +13,7 @@ use App\Customuser;
 use App\Question as Question;
 use App\Vehicle as Vehicle;
 use Illuminate\Database\Query\Builder;
+use App\Score as Score;
 
 class TripsController extends Controller
 {
@@ -268,13 +269,21 @@ class TripsController extends Controller
         if($tripId > 0)
         {
           $trip = $trips->find($tripId);
-          $today = Carbon::today()->format('d-m-Y');
-
-          if($trip->date < $today)
-          {
-            session()->flash('error', 'El viaje no esta disponible');  
-            return back();
+          $today = Carbon::today();
+          $currentHour = Carbon::now()->toTimeString();
+          
+          $date = Carbon::createFromFormat('d-m-Y', $trip->date);
+        
+          if (!$trip->isRatable) { //si el viaje no es calificable, entonces validar la fecha para mostrarlo como no disponible
+              if ($date->lt($today)) {
+                  session()->flash('error', 'El viaje no esta disponible');
+                  return back();
+              } elseif ($date->eq($today) && $trip->TripConfiguration->startTime <=  $currentHour) {
+                  session()->flash('error', 'El viaje no esta disponible');
+                  return back();
+              }
           }
+
         }
         else
         {
@@ -284,7 +293,7 @@ class TripsController extends Controller
             $trip->date = $date;
         }
         
-        $tripConfiguration = new TripConfiguration;
+            $tripConfiguration = new TripConfiguration;
             $configurations = $tripConfiguration->all();
             $ownerId = $configurations->find($tripConfig)->custom_user_id;
             $questions = $trip->questions;
@@ -402,4 +411,35 @@ class TripsController extends Controller
 
             return back()->with('error', 'Postulación rechazada');
     }
+
+    public function rateTrip(Request $request)
+    {
+       $score = new Score; 
+       $tripId = $request->input('tripId');
+       //logged in user
+       $userId = Auth::user()->id;
+       $ownerId = $request->input('ownerId');
+
+       $existScore = Score::where('trip_id','=',$tripId)
+                            ->where('qualifier_id','=',$userId)
+                            ->where('owner_id','=',$ownerId)
+                            ->get();
+       
+       if($existScore->isEmpty())
+       {
+            $score->comment = $request->input('comment');
+            $score->value = $request->input('rating');
+            $score->trip_id = $request->input('tripId');
+            $score->qualifier_id = $userId;
+            //the person I am rating
+            $score->owner_id = $request->input('ownerId');
+            $score->save();
+            return redirect()->back();
+       }
+       else
+       {
+        return back()->with('error', 'ya calificaste este viaje!');
+       }
+       
+    } 
 }
