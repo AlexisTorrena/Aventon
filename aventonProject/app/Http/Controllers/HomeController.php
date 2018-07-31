@@ -65,16 +65,24 @@ class HomeController extends Controller
             $trips = $goshtTrips->merge($realTrips);
             $tripsToShow = $tripsToShow->concat($trips);
         }
-        $dateSearch = Carbon::parse($dates)->format('d-m-Y');
+        if ($dates){
+            $dateSearch = Carbon::parse($dates)->format('d-m-Y');
+            $tripsToShow = $tripsToShow->where('date', '=', $dateSearch);
+        }else{
+          $dateSearch = null;
+        }
         // dd($tripsToShow, $dateSearch);
-        $trips = $tripsToShow->where('date', '=', $dateSearch);
+        $trips = $tripsToShow;
         $filter = array('date' => $dateSearch, 'origin' => $origin, 'destination' => $destination);
         // dd($filter);
-        if ( $trips->count() > 0 ){
-          return view('Trips/index')->with('trips',$trips)->with('filter',$filter);
-        }else{
-          $msg = 'No se encontraron viajes disponibles';
-          return view('Trips/errSearch')->with('msg',$msg);
+
+        if($trips){
+          if ( $trips->count() > 0 ){
+            return view('Trips/index')->with('trips',$trips)->with('filter',$filter);
+          }else{
+            $msg = 'No se encontraron viajes disponibles';
+            return view('Trips/errSearch')->with('msg',$msg);
+          }
         }
     }
 
