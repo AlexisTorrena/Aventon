@@ -269,13 +269,21 @@ class TripsController extends Controller
         if($tripId > 0)
         {
           $trip = $trips->find($tripId);
-          $today = Carbon::today()->format('d-m-Y');
-
-          if($trip->date < $today)
-          {
-            session()->flash('error', 'El viaje no esta disponible');  
-            return back();
+          $today = Carbon::today();
+          $currentHour = Carbon::now()->toTimeString();
+          
+          $date = Carbon::createFromFormat('d-m-Y', $trip->date);
+        
+          if (!$trip->isRatable) { //si el viaje no es calificable, entonces validar la fecha para mostrarlo como no disponible
+              if ($date->lt($today)) {
+                  session()->flash('error', 'El viaje no esta disponible');
+                  return back();
+              } elseif ($date->eq($today) && $trip->TripConfiguration->startTime <=  $currentHour) {
+                  session()->flash('error', 'El viaje no esta disponible');
+                  return back();
+              }
           }
+
         }
         else
         {
@@ -285,7 +293,7 @@ class TripsController extends Controller
             $trip->date = $date;
         }
         
-        $tripConfiguration = new TripConfiguration;
+            $tripConfiguration = new TripConfiguration;
             $configurations = $tripConfiguration->all();
             $ownerId = $configurations->find($tripConfig)->custom_user_id;
             $questions = $trip->questions;

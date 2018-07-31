@@ -60,6 +60,9 @@ class Trip extends Model
 
         $alreadyScored = collect([]);
 
+        //set id of the trip owner as alredy score, just to not able to auto rate him self.
+        $alreadyScored->push($this->TripConfiguration->owner->id);
+
         foreach ($scores as $score) 
         {
             $alreadyScored->push($score->owner_id);
@@ -130,7 +133,11 @@ class Trip extends Model
 
     public function getIsRatableAttribute()
     {
-        return true;
+        $cant = $this->passengers->count();
+        $today = Carbon::today();
+        $date = Carbon::createFromFormat('d-m-Y', $this->date);
+
+        return $cant > 1 && $date->lt($today);
     }
 
     /**
