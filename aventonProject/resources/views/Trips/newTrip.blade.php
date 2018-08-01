@@ -1,7 +1,7 @@
 @extends('layout.mainlayout') 
 @section('content')
 <div class="container">
-  @include('layout.partials.actions') @if(session()->has('succesfuly'))
+ @if(session()->has('succesfuly'))
   <div class="alert alert-success" role="alert">{{ session('succesfuly') }} </div>
   @else @if(session()->has('error'))
   <div class="alert alert-danger" role="alert"> {{ session('error') }}</div>

@@ -1,7 +1,6 @@
-@extends('layout.mainlayout') 
+@extends('layout.mainlayout')
 @section('content')
 <div class="container">
-  @include('layout.partials.actions')
   <table class="table table-striped">
     <thead class="thead-dark">
       <tr>
