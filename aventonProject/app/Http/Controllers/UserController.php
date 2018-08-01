@@ -64,7 +64,7 @@ class UserController extends Controller
     }
 
     public function showTrips(){
-        
+
         $trips = Auth::user()->trips;
         return view('User/myTrips')->with('trips',$trips);
     }

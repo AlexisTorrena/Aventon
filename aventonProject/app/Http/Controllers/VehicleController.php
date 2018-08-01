@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Vehicle as Vehicle;
 use Illuminate\Support\Facades\Auth;
+use App\TripConfiguration as TripConfiguration;
+
 
 
 class VehicleController extends Controller
@@ -52,8 +54,13 @@ class VehicleController extends Controller
     $vehicle = new Vehicle;
 
     if( $this->checkOwner($idVehicle) ){
+      $vehic = $this->isVehicleUsed($idVehicle);
+      if ($vehic->count() > 0){
+        return view('Vehicle/errorAccion')->with('mensaje', 'El vehículo está siendo usado en un viaje');
+      }else{
       $vehicle = Vehicle::where('id', $idVehicle)->get();
       return view('Vehicle/modifyVehicle')->with('vehicles',$vehicle->first());
+    }
     }else{
        return view('Vehicle/errorAccion')->with('mensaje', 'No tenés permisos para modificar este vehículo');
     }
@@ -63,10 +70,17 @@ class VehicleController extends Controller
   {
     $vehicle = new Vehicle;
     if($this->checkOwner($idVehicle)){
-      $vehicle = Vehicle::destroy($idVehicle);
-      $this->index();
-      return view('Vehicle/succesAction')->with('mensaje', 'Se borró el vehículo');
-     }else{
+      $vehic = $this->isVehicleUsed($idVehicle);
+      if ($vehic->count() > 0){
+        return view('Vehicle/errorAccion')->with('mensaje', 'El vehículo está siendo usado en un viaje');
+      }else{
+        $vehicle = Vehicle::destroy($idVehicle);
+        $this->index();
+        return view('Vehicle/succesAction')->with('mensaje', 'Se borró el vehículo');
+      }
+      }
+      // if ($isUsedInATrip = $trip->vehicles->where(''))
+      else{
       return view('Vehicle/errorAccion')->with('mensaje', 'No tenés permisos para eliminar este vehículo');
    }
   }
@@ -90,6 +104,13 @@ class VehicleController extends Controller
   {
     return (Auth::user()->vehicles->find($idVehicle) ) ;
     //return ($usr->where('id', $idVehicle));
+  }
+
+  public function isVehicleUsed($idVehicle)
+  {
+    $configurations = TripConfiguration::all();
+    $trips = $configurations->where('vehicle_id',$idVehicle);
+    return ($trips);
   }
 
 }

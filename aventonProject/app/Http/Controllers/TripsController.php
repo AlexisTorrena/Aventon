@@ -76,7 +76,7 @@ class TripsController extends Controller
 
         $tripConfiguration = new TripConfiguration;
         $configurations = $tripConfiguration->all();
-        
+
         $tripsToShow = collect(new Trip);
         //Show fake trips + real trips but removing duplicated ones.
         foreach ($configurations as $configuration)
@@ -162,10 +162,10 @@ class TripsController extends Controller
                 'trip_id' => $trip->id]
             );
         }
-        
+
         $tripId = $trip->id;
         $isPassenger = $trip->passengers()->where('user_id', Auth::user()->id)->exists();
-        
+
         if($isPassenger){
 
             return back()->with('error', 'Ya sos un pasajero de este viaje');
@@ -198,12 +198,12 @@ class TripsController extends Controller
             }
             }else{
                 return back()->with('error', 'El viaje está lleno');
-            }        
+            }
         }
     }
 
     public function postQuestion(Request $request,$tripConfig,$date,$tripId){
-        
+
         $trips = new Trip;
         $trip;
 
@@ -219,7 +219,7 @@ class TripsController extends Controller
             $trips->status = 'Abierto';
             $trips->save();
             $trip = $trips;
-            
+
             $tripConfiguration = new TripConfiguration;
             $configurations = $tripConfiguration->all();
             $userId = $configurations->find($tripConfig)->custom_user_id;
@@ -229,7 +229,7 @@ class TripsController extends Controller
                 'trip_id' => $trip->id]
             );
         }
-        
+
         $tripId = $trip->id;
 
         $question = new Question;
@@ -237,19 +237,19 @@ class TripsController extends Controller
         $question -> custom_user_id = Auth::user()->id;
         $question -> trip_id = $tripId;
         if($question->save()){
-            
+
             return back()->with('succesfuly', 'Pregunta publicada');
-        
+
         }else{
-            
+
             return back()->with('error', 'Error al publicar la pregunta, por favor intente de nuevo!');
-    
+
         }
 
     }
 
     public function postAnswer(Request $request, $id){
-        
+
         $question = new Question;
         $questions = $question->all();
         $question = $question->find($id);
@@ -258,7 +258,7 @@ class TripsController extends Controller
             return back()->with('succesfuly', 'Respuesta publicada');
         }else{
             return back()->with('error', 'Error al publicar la respuesta, por favor intente de nuevo!');
-    
+
         }
     }
 
@@ -271,9 +271,9 @@ class TripsController extends Controller
           $trip = $trips->find($tripId);
           $today = Carbon::today();
           $currentHour = Carbon::now()->toTimeString();
-          
+
           $date = Carbon::createFromFormat('d-m-Y', $trip->date);
-        
+
           if (!$trip->isRatable) { //si el viaje no es calificable, entonces validar la fecha para mostrarlo como no disponible
               if ($date->lt($today)) {
                   session()->flash('error', 'El viaje no esta disponible');
@@ -292,7 +292,7 @@ class TripsController extends Controller
             $trip = $trips->find($tripConfig)->goshtTrips->first();
             $trip->date = $date;
         }
-        
+
             $tripConfiguration = new TripConfiguration;
             $configurations = $tripConfiguration->all();
             $ownerId = $configurations->find($tripConfig)->custom_user_id;
@@ -324,12 +324,12 @@ class TripsController extends Controller
         }
 
     }
-  
+
     public function cancelTrip($tripId)
     {
         $trips = new Trip;
         $trip = $trips->find($tripId);
-        
+
         $today = Carbon::today()->format('d-m-Y');
         $currentHour = Carbon::now()->toTimeString();
 
@@ -337,15 +337,15 @@ class TripsController extends Controller
         {
             if($trip->date < $today)
             {
-              session()->flash('error', 'No Puede cancelar este viaje, espere a ser calificado');  
+              session()->flash('error', 'No Puede cancelar este viaje, espere a ser calificado');
               return back();
             }
             else if ($trip->date == $today && $trip->TripConfiguration->startTime <=  $currentHour)
             {
-                session()->flash('error', 'No Puede cancelar este viaje, espere a ser calificado');  
+                session()->flash('error', 'No Puede cancelar este viaje, espere a ser calificado');
                 return back();
             }
-            
+
             $trip->destroy($tripId);
             session()->flash('succesfuly', 'Se ha cancelado el viaje');
             return redirect()->action('TripsController@organized');
@@ -361,7 +361,7 @@ class TripsController extends Controller
       $userId = Auth::user()->id;
       return ($trip->TripConfiguration->custom_user_id == $userId);
     }
-  
+
     public function acceptPostulation($userId, $tripId, $tripConfig){
 
         $trip = new Trip;
@@ -374,9 +374,9 @@ class TripsController extends Controller
         $vehicle = new Vehicle;
         $vehicles = $vehicle->all();
         $vehicle = $vehicles->find($vehicleId); // Obtiene el vehículo y el número de pasajeros que ya están aceptados incluyendo conductor.
-        
+
         if($numberOfPassengers < $vehicle->seats){
-            
+
             $user = new Customuser;
             $users = $user->all();
             $user = $users->find($userId);
@@ -384,14 +384,14 @@ class TripsController extends Controller
             ['user_id' => $userId,
             'trip_id' => $tripId]
                 );
-        
+
             DB::table('postulations')
                 ->where('user_id', '=', $userId)
                 ->where('trip_id', '=', $tripId)->delete();
 
             return back()->with('succesfuly', 'Postulación aceptada');
         }else{
-            
+
             return back()->with('error', 'El viaje está lleno. No podés aceptar más personas');
         }
     }
@@ -404,7 +404,7 @@ class TripsController extends Controller
         $user = new Customuser;
         $users = $user->all();
         $user = $users->find($userId);
-            
+
             DB::table('postulations')
             ->where('user_id', '=', $userId)
             ->where('trip_id', '=', $tripId)->delete();
@@ -414,7 +414,7 @@ class TripsController extends Controller
 
     public function rateTrip(Request $request)
     {
-       $score = new Score; 
+       $score = new Score;
        $tripId = $request->input('tripId');
        //logged in user
        $userId = Auth::user()->id;
@@ -424,7 +424,7 @@ class TripsController extends Controller
                             ->where('qualifier_id','=',$userId)
                             ->where('owner_id','=',$ownerId)
                             ->get();
-       
+
        if($existScore->isEmpty())
        {
             $score->comment = $request->input('comment');
@@ -440,6 +440,6 @@ class TripsController extends Controller
        {
         return back()->with('error', 'ya calificaste este viaje!');
        }
-       
-    } 
+
+    }
 }
