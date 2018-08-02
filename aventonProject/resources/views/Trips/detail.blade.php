@@ -213,15 +213,15 @@
                             <div class="align-self-center mr-3 float-left">
                                 <div class="stars" id="rating{{$index}}" onclick="setRatingForHidden({{$index}})">
                                     <input class="star star-5" id="star-5-{{$index}}" type="radio" name="star{{$index}}" value="5"/>
-                                    <label class="star star-5" for="star-5-{{$index}}"></label>
+                                    <label class="star full-star star-5" for="star-5-{{$index}}"></label>
                                     <input class="star star-4" id="star-4-{{$index}}" type="radio" name="star{{$index}}" value="4"/>
-                                    <label class="star star-4" for="star-4-{{$index}}"></label>
+                                    <label class="star full-star star-4" for="star-4-{{$index}}"></label>
                                     <input class="star star-3" id="star-3-{{$index}}" type="radio" name="star{{$index}}" value="3"/>
-                                    <label class="star star-3" for="star-3-{{$index}}"></label>
+                                    <label class="star full-star star-3" for="star-3-{{$index}}"></label>
                                     <input class="star star-2" id="star-2-{{$index}}" type="radio" name="star{{$index}}" value="2"/>
-                                    <label class="star star-2" for="star-2-{{$index}}"></label>
+                                    <label class="star full-star star-2" for="star-2-{{$index}}"></label>
                                     <input class="star star-1" id="star-1-{{$index}}" type="radio" name="star{{$index}}" value="1"/>
-                                    <label class="star star-1" for="star-1-{{$index}}"></label>
+                                    <label class="star full-star star-1" for="star-1-{{$index}}"></label>
                                 </div>
                             </div>
                         </div>
@@ -264,15 +264,15 @@
                         <div class="align-self-center mr-3 float-left">
                             <div class="stars" id="rating{{$index}}" onclick="setRatingForHidden({{$index}})">
                                 <input class="star star-5" id="star-5-{{$index}}" type="radio" name="star{{$index}}" value="5"/>
-                                <label class="star star-5" for="star-5-{{$index}}"></label>
+                                <label class="star full-star star-5" for="star-5-{{$index}}"></label>
                                 <input class="star star-4" id="star-4-{{$index}}" type="radio" name="star{{$index}}" value="4"/>
-                                <label class="star star-4" for="star-4-{{$index}}"></label>
+                                <label class="star full-star star-4" for="star-4-{{$index}}"></label>
                                 <input class="star star-3" id="star-3-{{$index}}" type="radio" name="star{{$index}}" value="3"/>
-                                <label class="star star-3" for="star-3-{{$index}}"></label>
+                                <label class="star full-star star-3" for="star-3-{{$index}}"></label>
                                 <input class="star star-2" id="star-2-{{$index}}" type="radio" name="star{{$index}}" value="2"/>
-                                <label class="star star-2" for="star-2-{{$index}}"></label>
+                                <label class="star full-star star-2" for="star-2-{{$index}}"></label>
                                 <input class="star star-1" id="star-1-{{$index}}" type="radio" name="star{{$index}}" value="1"/>
-                                <label class="star star-1" for="star-1-{{$index}}"></label>
+                                <label class="star full-star star-1" for="star-1-{{$index}}"></label>
                             </div>
                         </div>
                     </div>
@@ -319,15 +319,15 @@
                             <div class="align-self-center mr-3 float-left">
                                 <div class="stars" id="receivedRating{{$index}}">
                                     <input class="star star-5" id="received-star-5-{{$index}}" type="radio" name="r-star{{$index}}"/>
-                                    <label class="star star-5" for="received-star-5-{{$index}}"></label>
+                                    <label class="star full-star star-5" for="received-star-5-{{$index}}"></label>
                                     <input class="star star-4" id="received-star-4-{{$index}}" type="radio" name="r-star{{$index}}"/>
-                                    <label class="star star-4" for="received-star-4-{{$index}}"></label>
+                                    <label class="star full-star star-4" for="received-star-4-{{$index}}"></label>
                                     <input class="star star-3" id="received-star-3-{{$index}}" type="radio" name="r-star{{$index}}"/>
-                                    <label class="star star-3" for="received-star-3-{{$index}}"></label>
+                                    <label class="star full-star star-3" for="received-star-3-{{$index}}"></label>
                                     <input class="star star-2" id="received-star-2-{{$index}}" type="radio" name="r-star{{$index}}"/>
-                                    <label class="star star-2" for="received-star-2-{{$index}}"></label>
+                                    <label class="star full-star star-2" for="received-star-2-{{$index}}"></label>
                                     <input class="star star-1" id="received-star-1-{{$index}}" type="radio" name="r-star{{$index}}"/>
-                                    <label class="star star-1" for="received-star-1-{{$index}}"></label>
+                                    <label class="star full-star star-1" for="received-star-1-{{$index}}"></label>
                                 </div>
                                 <script type="text/javascript">
                                             //no tocar , pacto con el diablo jaja
@@ -373,15 +373,15 @@
                             <div class="align-self-center mr-3 float-left">
                                 <div class="stars" id="givenRating{{$index}}">
                                     <input class="star star-5" id="given-star-5-{{$index}}" type="radio" name="g-star{{$index}}" value="5"/>
-                                    <label class="star star-5" for="given-star-5-{{$index}}"></label>
+                                    <label class="star full-star star-5" for="given-star-5-{{$index}}"></label>
                                     <input class="star star-4" id="given-star-4-{{$index}}" type="radio" name="g-star{{$index}}" value="4"/>
-                                    <label class="star star-4" for="given-star-4-{{$index}}"></label>
+                                    <label class="star full-star star-4" for="given-star-4-{{$index}}"></label>
                                     <input class="star star-3" id="given-star-3-{{$index}}" type="radio" name="g-star{{$index}}" value="3"/>
-                                    <label class="star star-3" for="given-star-3-{{$index}}"></label>
+                                    <label class="star full-star star-3" for="given-star-3-{{$index}}"></label>
                                     <input class="star star-2" id="given-star-2-{{$index}}" type="radio" name="g-star{{$index}}" value="2"/>
-                                    <label class="star star-2" for="given-star-2-{{$index}}"></label>
+                                    <label class="star full-star star-2" for="given-star-2-{{$index}}"></label>
                                     <input class="star star-1" id="given-star-1-{{$index}}" type="radio" name="g-star{{$index}}" value="1"/>
-                                    <label class="star star-1" for="given-star-1-{{$index}}"></label>
+                                    <label class="star full-star star-1" for="given-star-1-{{$index}}"></label>
                                 </div>
                                 <script type="text/javascript">
                                     //no tocar , pacto con el diablo jaja
