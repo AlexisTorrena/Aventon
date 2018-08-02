@@ -34,6 +34,12 @@ label.full-star:before {
   }
 
 label.half-star:before {
-    content: '\f089';
+    content: '\f123';
     font-family: FontAwesome;
+  }
+
+  input.half-star:checked ~ label.star:before {
+    content: '\f123';
+    color: #FD4;
+    transition: all .25s;
   }

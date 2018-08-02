@@ -45,4 +45,27 @@ class CustomUser extends Authenticatable
         return $this->hasMany(Vehicle::class);
     }
 
+    public function gethasReputationAttribute()
+    {
+        $scores = Score::where('owner_id','=',$this->id)->get();
+
+      return $scores->count() > 2;
+    }
+
+    public function getavergeReputationAttribute()
+    {
+        $scores = Score::where('owner_id','=',$this->id)->get();
+        $scoresValues = collect([]);
+
+        foreach ($scores as $score) 
+        {
+            $scoresValues->push($score->value);
+        }
+
+        $reputation = $scoresValues->avg();
+        //redonde entre numero entero ej: 3 y 3.5 . 
+        $reputation = floor($reputation);
+
+      return $reputation;
+    }
 }
