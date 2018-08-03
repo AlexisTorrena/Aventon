@@ -29,11 +29,11 @@
       <h1>Reputación</h1>
        @if(!$user->HasReputation)
           <p>
-            El usuario {{$user->name}} todavia no posee suficientes calificaciones!. Debe tener al menos tres calificaciones.
+            El usuario {{$user->name}} todavía no posee suficientes calificaciones! Debe tener al menos tres calificaciones.
           </p>
        @else
           <P>
-           {{$user->name}} tu reputacion actual es:
+           {{$user->name}} tu reputación actual es:
           </P>
           @php
           $index = 1;
