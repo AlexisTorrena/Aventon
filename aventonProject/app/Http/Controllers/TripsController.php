@@ -49,7 +49,14 @@ class TripsController extends Controller
     public function create()
     {
         $vehicles = Auth::user()->vehicles;
-        return view('Trips/newTrip')->with('vehicles',$vehicles);
+        if (!$vehicles->isEmpty()) 
+        {
+            return view('Trips/newTrip')->with('vehicles', $vehicles);
+        }
+        else
+        {
+            return view('Vehicle/withoutVehicles');
+        }
     }
 
     /**

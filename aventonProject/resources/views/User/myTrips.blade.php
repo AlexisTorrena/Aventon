@@ -1,7 +1,6 @@
 @extends('layout.mainlayout') 
 @section('content')
 <div class="container">
-  @include('layout.partials.actions') 
     @if(session()->has('succesfuly'))
       <div class="alert alert-success alert-dismissible fade show" role="alert">{{ session('succesfuly') }} 
       <button type="button" class="close" data-dismiss="alert">&times;</button>
