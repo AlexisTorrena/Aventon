@@ -29,6 +29,60 @@
            <div class="alert alert-danger" role="alert"> {{ session('error') }}</div>
           @endif
         @endif
+
+        <br/>
+                    <h1>Reputación</h1>
+                    <br/>
+                    @php
+                    $user = $trip->TripConfiguration->owner;
+                    @endphp
+                    
+                    @if(!$user->HasReputation)
+                    <div class="row"
+                        <p>
+                        El usuario {{$user->name}} todavía no posee suficientes calificaciones! Debe tener al menos tres calificaciones.
+                        </p>
+                    </div>
+                    @else
+                       <div class="row"
+                            <P>
+                            La reputación actual de {{$user->name}} es:
+                            </P>
+                            <br/>
+                        @php
+                        $index = 1;
+                        @endphp
+                        
+                        <div class="align-self-center mr-3 float-left">
+                            <div class="stars" id="receivedRating{{$index}}">
+                                <input class="star star-5" id="owner-received-star-5-{{$index}}" type="radio" name="owner-star{{$index}}"/>
+                                <label class="star full-star star-5" for="received-star-5-{{$index}}"></label>
+                                <input class="star star-4" id="owner-received-star-4-{{$index}}" type="radio" name="owner-star{{$index}}"/>
+                                <label class="star full-star star-4" for="received-star-4-{{$index}}"></label>
+                                <input class="star star-3" id="owner-received-star-3-{{$index}}" type="radio" name="owner-star{{$index}}"/>
+                                <label class="star full-star star-3" for="received-star-3-{{$index}}"></label>
+                                <input class="star star-2" id="owner-received-star-2-{{$index}}" type="radio" name="owner-star{{$index}}"/>
+                                <label class="star full-star star-2" for="received-star-2-{{$index}}"></label>
+                                <input class="star star-1" id="owner-received-star-1-{{$index}}" type="radio" name="owner-star{{$index}}"/>
+                                <label class="star full-star star-1" for="received-star-1-{{$index}}"></label>
+                            </div>
+                            <script type="text/javascript">
+                                        //no tocar , pacto con el diablo jaja
+                                    var selector = "owner-received-star-"+ {{$user->avergeReputation}} +"-" +{{$index}};
+                                    var radiobtn = document.getElementById(selector);
+                                    radiobtn.checked = true;
+                                    var name = "owner-star"+{{$index}};
+                                        var x = document.querySelectorAll("input[name="+  CSS.escape(name) + "]");
+                                        var i;
+                                        for (i = 0; i < x.length; i++) {
+                                                x[i].disabled = true;
+                                        }
+                            </script>
+                        </div>
+                       </div> 
+                    @endif
+
+
         <table class="table table-striped">
             <thead class="thead-dark">
             <tr>
