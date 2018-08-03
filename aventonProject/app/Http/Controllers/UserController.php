@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Customuser;
 
 class UserController extends Controller
 {
@@ -59,14 +60,20 @@ class UserController extends Controller
       }else{
         return view('Vehicle/index')->with('vehicles',$vehicles);
       }
-      // return view('Vehicle/index')->with('vehicles',$vehicles);
+    }
 
+    public function showProfile($idUser)
+    {
+      $user = new Customuser;
+      $users = $user->all();
+      $user = $users->find($idUser);
+      return view('User/userProfile')->with('user',$user);
     }
 
     public function showTrips(){
 
         $trips = Auth::user()->trips;
-        
+
         if(!$trips->isEmpty())
         {
             return view('User/myTrips')->with('trips',$trips);
@@ -78,7 +85,7 @@ class UserController extends Controller
     }
 
     public function showPostulations(){
-        
+
         $postulations = Auth::user()->postulations;
 
         if(!$postulations->isEmpty())
