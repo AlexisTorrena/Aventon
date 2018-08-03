@@ -1,4 +1,4 @@
-@extends('layout.detailLayout') 
+@extends('layout.detailLayout')
 @section('content')
 <!-- Modal -->
 <div class="modal fade" id="messageWindow" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -39,13 +39,14 @@
          <th>Costo</th>
          <th>Duracion</th>
          <th>Frecuencia</th>
+         <th>Conductor</th>
          @if(!$trip->isRatable)
             @if( $ownerId != Auth::user()->id )
             <th width="200">Postulate!</th>
             @else
             <th width="200">Accion</th>
             @endif
-        @endif   
+        @endif
          </tr>
         </thead>
          <tbody>
@@ -57,6 +58,7 @@
                   <td>{{ $trip['cost'] }}</td>
                   <td>{{ $trip['duration'] }}</td>
                   <td>{{ $trip['periodicity'] }}</td>
+                  <td> <a href="{{action('UserController@showProfile', ['id' => $trip->TripConfiguration->owner->id ])}}">{{$trip->TripConfiguration->owner->name }}</a></td>
                   @if(!$trip->isRatable)
                     @if( $ownerId != Auth::user()->id )
                     <td><a class="button hollow" href="{{ action('TripsController@postulate', ['tripConfig' => $trip->trip_config_id,'date' => $trip->date,'tripId' => $trip->id]) }}">Postularse</a></td>
@@ -65,14 +67,14 @@
                             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#messageWindow">
                                     Cancelar
                             </button>
-                    </td>  
+                    </td>
                     @endif
                   @endif
              </tr>
          </tbody>
     </table>
         @if( $ownerId != Auth::user()->id )
-        
+
         <form method="GET" action="{{ action('TripsController@postQuestion', ['tripConfig' => $trip->trip_config_id,'date' => $trip->date,'tripId' => $trip->id]) }}">
             <label align="center" style="width:50%"><h6>Hacé una pregunta!</h6></label>
             <div class="question-field">
@@ -86,7 +88,7 @@
         <br>
         @if(!$questions ->isEmpty())
         <div class="media-container" style="width: 50%; border: 1px solid black">
-            
+
             @foreach ($questions as $question)
             <div class="media">
                 <div class="media-body" align="right">
@@ -103,7 +105,7 @@
                     <img class="rounded-circle" src="/images/img_avatar1.png" alt="Card image" style="width:60px">
                 </div>
                 <div class="media-body">
-                    <p>{{ $question['answer'] }}</p>               
+                    <p>{{ $question['answer'] }}</p>
                 </div>
             </div>
             <hr noshade style="height: 2px">
@@ -123,13 +125,13 @@
             @foreach ($postulations as $postulation)
                 <div class="media">
                     <div class="media-body" align="center">
-                        <p><h6>{{ $postulation['name']}} quiere unirse a tu viaje!</h6>     
+                        <p><h6>{{ $postulation['name']}} quiere unirse a tu viaje!</h6>
                         <a href="{{ action('TripsController@acceptPostulation', ['userId' => $postulation->id, 'tripId' => $trip->id,'tripConfig' => $trip->trip_config_id]) }}" class="btn btn-info" role="button">Aceptar</a>
                         <a href="{{ action('TripsController@rejectPostulation', ['userId' => $postulation->id, 'tripId' => $trip->id,'tripConfig' => $trip->trip_config_id]) }}" class="btn btn-info" role="button">Rechazar</a></p>
                     </div>
                 </div>
                 @endforeach
-        </div>            
+        </div>
         @else
         <div class="media-container" style="width: 50%; border: 1px solid black">
             <div class="media">
@@ -138,7 +140,7 @@
                 </div>
             </div>
         </div>
-        @endif   
+        @endif
         @if (!$questions ->isEmpty())
         <div class="media-container" style="width: 50%; border: 1px solid black">
             @foreach ($questions as $question)
@@ -157,7 +159,7 @@
                     <img class="rounded-circle" src="/images/img_avatar1.png" alt="Card image" style="width:60px">
                 </div>
                 <div class="media-body">
-                    <p>{{ $question['answer'] }}</p>               
+                    <p>{{ $question['answer'] }}</p>
                 </div>
             </div>
             <hr noshade style="height: 2px">
@@ -181,7 +183,7 @@
             <hr noshade style="height: 2px">
             @endif
             @endforeach
-        </div>    
+        </div>
         @else
         <div class="media-container" style="width: 50%; border: 1px solid black">
                 <div class="media-body">
@@ -189,17 +191,17 @@
                 </div>
         </div>
         @endif
-        
+
         @endif
-    
+
     {{-- This sections belongs to Rating --}}
     @if($trip->IsRatable)
 
         @if( $ownerId == Auth::user()->id )
             @if (!$trip->passengersToScore->isEmpty())
-                <br/> 
+                <br/>
                 <h1>Calificar</h1>
-                <br/> 
+                <br/>
                 <h4>Por favor califica a tus pasajeros!</h4>
                 <br/>
                 @php
@@ -247,14 +249,14 @@
                             </div>
                         </div>
                     </div>
-                    <hr noshade style="height: 2px"> 
-                @endforeach 
+                    <hr noshade style="height: 2px">
+                @endforeach
             @endif
         @else
             @if(!$trip->alreadyRatedByMe)
-                <br/> 
+                <br/>
                 <h1>Calificar</h1>
-                <br/> 
+                <br/>
                 <h4>Por favor califica a tu conductor!</h4>
                 <br/>
                 @php
@@ -298,7 +300,7 @@
                         </div>
                     </div>
                 </div>
-                <hr noshade style="height: 2px"> 
+                <hr noshade style="height: 2px">
             @endif
         @endif
         @if(!$trip->scores->isEmpty())
@@ -355,10 +357,10 @@
                             </div>
                         </div>
                     </div>
-                    <hr noshade style="height: 2px"> 
+                    <hr noshade style="height: 2px">
                 @endforeach
                 <hr noshade style="height: 2px">
-                <br/> 
+                <br/>
                 <h4>Tu calificación</h4>
                 <br/>
                 {{-- calificaciones que dio el usuario loggeado, puede ser el owner o no, no importa --}}
@@ -411,7 +413,7 @@
                     </div>
                     <hr noshade style="height: 2px">
                 @endforeach
-         @endif        
+         @endif
     @endif
  </div>
  <script>

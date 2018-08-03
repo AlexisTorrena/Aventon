@@ -42,6 +42,8 @@ Route::get('/Users', function(){
 
 Route::get('/perfil', 'UserController@show');
 
+Route::get('/perfil/{id}', 'UserController@showProfile');
+
 Route::get('/myVehicles', 'UserController@showVehicles');
 
 Route::get('/modifyVehicle/{id}', 'VehicleController@modifyVehicle');
