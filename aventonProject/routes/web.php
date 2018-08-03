@@ -61,6 +61,10 @@ Route::get('/acceptPostulation/{userId}/{tripId}/{tripConfig}', 'TripsController
 
 Route::get('/rejectPostulation/{userId}/{tripId}/{tripConfig}', 'TripsController@rejectPostulation');
 
+Route::get('/myPostulations', 'UserController@showPostulations');
+
+Route::get('/deletePostulation/{tripId}', 'TripsController@deletePostulation');
+
 Auth::routes();
 
 Route::get('/tripprueba', 'HomeController@prueba');
@@ -68,3 +72,5 @@ Route::get('/tripprueba', 'HomeController@prueba');
 Route::get('/registrationCompleted', 'HomeController@regCompleted');
 
 Route::get('/myTrips', 'UserController@showTrips');
+
+Route::get('/check/{date}', 'UserController@checkIfAvailable');

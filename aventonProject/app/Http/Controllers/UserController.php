@@ -68,6 +68,12 @@ class UserController extends Controller
         $trips = Auth::user()->trips;
         return view('User/myTrips')->with('trips',$trips);
     }
+
+    public function showPostulations(){
+        
+        $postulations = Auth::user()->postulations;
+        return view('User/myPostulations')->with('postulations',$postulations);
+    }
     /**
      * Show the form for editing the specified resource.
      *

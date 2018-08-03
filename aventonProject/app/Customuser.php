@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-
+use Carbon\Carbon;
 class CustomUser extends Authenticatable
 {
     use Notifiable;
@@ -50,6 +50,38 @@ class CustomUser extends Authenticatable
         $scores = Score::where('owner_id','=',$this->id)->get();
 
       return $scores->count() > 2;
+    }
+
+    public function checkIfAvailable($date){
+        
+        $available = true;
+        $carbonDate = new Carbon($date);
+        $postulations = $this->postulations;
+        $trips = $this->trips;
+        
+        foreach ($postulations as $postulation){
+            
+            $checkDate = new Carbon($postulation->date);
+            
+            if ($checkDate = $carbonDate){
+                
+                $available = false;
+
+            }
+        }
+
+        foreach ($trips as $trip){
+
+            $checkDate = new Carbon($trip->date);
+            
+            if ($checkDate = $carbonDate){
+                
+                $available = false;
+
+            }
+        }
+        
+        return $available;
     }
 
     public function getavergeReputationAttribute()
