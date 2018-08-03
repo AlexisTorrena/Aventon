@@ -161,4 +161,18 @@ class Trip extends Model
         
         return $this->hasMany('App\Score');
     }
+
+    public function getrealPassengersAttribute(){
+
+        $passengers = $this->passengers;
+
+        $notMe = collect([]);
+
+        //set id of the trip owner as alredy score, just to not able to auto rate him self.
+        $notMe->push($this->TripConfiguration->owner->id);
+
+        $filtered = $passengers->whereNotIn('id',$notMe);
+
+        return $filtered; 
+    }
 }

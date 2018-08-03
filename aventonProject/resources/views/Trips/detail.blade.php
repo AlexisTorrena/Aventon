@@ -29,48 +29,68 @@
            <div class="alert alert-danger" role="alert"> {{ session('error') }}</div>
           @endif
         @endif
-    <table class="table table-striped">
-        <thead class="thead-dark">
-         <tr>
-          <th>Origen</th>
-         <th>Destino</th>
-         <th>Hora</th>
-         <th>Fecha</th>
-         <th>Costo</th>
-         <th>Duracion</th>
-         <th>Frecuencia</th>
-         @if(!$trip->isRatable)
-            @if( $ownerId != Auth::user()->id )
-            <th width="200">Postulate!</th>
-            @else
-            <th width="200">Accion</th>
-            @endif
-        @endif   
-         </tr>
-        </thead>
-         <tbody>
-             <tr>
-                  <td>{{ $trip['origin'] }}</td>
-                  <td>{{ $trip['destination'] }}</td>
-                  <td>{{ $trip['startTime'] }}</td>
-                  <td>{{ $trip['date'] }}</td>
-                  <td>{{ $trip['cost'] }}</td>
-                  <td>{{ $trip['duration'] }}</td>
-                  <td>{{ $trip['periodicity'] }}</td>
-                  @if(!$trip->isRatable)
-                    @if( $ownerId != Auth::user()->id )
-                    <td><a class="button hollow" href="{{ action('TripsController@postulate', ['tripConfig' => $trip->trip_config_id,'date' => $trip->date,'tripId' => $trip->id]) }}">Postularse</a></td>
-                    @else
-                    <td>
-                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#messageWindow">
-                                    Cancelar
-                            </button>
-                    </td>  
+        <table class="table table-striped">
+            <thead class="thead-dark">
+            <tr>
+            <th>Origen</th>
+            <th>Destino</th>
+            <th>Hora</th>
+            <th>Fecha</th>
+            <th>Costo</th>
+            <th>Duracion</th>
+            <th>Frecuencia</th>
+            @if(!$trip->isRatable)
+                @if( $ownerId != Auth::user()->id )
+                <th width="200">Postulate!</th>
+                @else
+                <th width="200">Accion</th>
+                @endif
+            @endif   
+            </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ $trip['origin'] }}</td>
+                    <td>{{ $trip['destination'] }}</td>
+                    <td>{{ $trip['startTime'] }}</td>
+                    <td>{{ $trip['date'] }}</td>
+                    <td>{{ $trip['cost'] }}</td>
+                    <td>{{ $trip['duration'] }}</td>
+                    <td>{{ $trip['periodicity'] }}</td>
+                    @if(!$trip->isRatable)
+                        @if( $ownerId != Auth::user()->id )
+                        <td><a class="button hollow" href="{{ action('TripsController@postulate', ['tripConfig' => $trip->trip_config_id,'date' => $trip->date,'tripId' => $trip->id]) }}">Postularse</a></td>
+                        @else
+                        <td>
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#messageWindow">
+                                        Cancelar
+                                </button>
+                        </td>  
+                        @endif
                     @endif
-                  @endif
-             </tr>
-         </tbody>
-    </table>
+                </tr>
+            </tbody>
+        </table>
+    @if(!$trip->realPassengers->isEmpty())
+        <h3>Tus Pasajeros Son:</h3>
+        <table class="table table-striped">
+                <thead class="thead-dark">
+                 <tr>
+                 <th>Nombre</th>
+                 <th width="200">Accion</th>
+                 </tr>
+                </thead>
+                 <tbody>
+                    @foreach ($trip->realPassengers as $realPassenger)
+                     <tr>
+                        <td>{{ $realPassenger->name }}</td>
+                        <td><a class="button hollow" href="{{ action('TripsController@detail', ['tripConfig' => $trip->trip_config_id,'date' => $trip->date,'tripId' => $trip->id]) }}">Ver Perfil</a></td>
+                     </tr>
+                     @endforeach
+                 </tbody>
+            </table>
+            <hr noshade style="height: 2px">
+    @endif
         @if( $ownerId != Auth::user()->id )
         
         <form method="GET" action="{{ action('TripsController@postQuestion', ['tripConfig' => $trip->trip_config_id,'date' => $trip->date,'tripId' => $trip->id]) }}">
