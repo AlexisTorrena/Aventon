@@ -58,26 +58,26 @@ class CustomUser extends Authenticatable
         $carbonDate = new Carbon($date);
         $postulations = $this->postulations;
         $trips = $this->trips;
-        
+    
         foreach ($postulations as $postulation){
             
             $checkDate = new Carbon($postulation->date);
             
-            if ($checkDate = $carbonDate){
+            if ($checkDate == $carbonDate){
                 
                 $available = false;
-
+    
             }
         }
 
         foreach ($trips as $trip){
 
             $checkDate = new Carbon($trip->date);
-            
-            if ($checkDate = $carbonDate){
+        
+            if ($checkDate == $carbonDate){
                 
                 $available = false;
-
+                
             }
         }
         

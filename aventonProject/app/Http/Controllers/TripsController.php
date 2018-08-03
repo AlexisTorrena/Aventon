@@ -154,9 +154,10 @@ class TripsController extends Controller
         $trips = new Trip;
         $trip;
         $carbonDate = new Carbon($date);
-        $today = Carbon::now();
-
-        if($carbonDate > $today){
+        $yesterday = Carbon::now();
+        $yesterday->subDay(1);
+    
+        if($carbonDate >= $yesterday){
             
             if($tripId > 0)
             {
@@ -200,6 +201,7 @@ class TripsController extends Controller
                         return back()->with('error', 'Ya estás postulado en este viaje.');
                     }
                     else{
+                        //dd($date);
                         if(Auth::user()->checkIfAvailable($date)){
                             DB::table('postulations')->insert(
                                  ['user_id' => Auth::user()->id,
