@@ -56,7 +56,7 @@ class VehicleController extends Controller
     if( $this->checkOwner($idVehicle) ){
       $vehic = $this->isVehicleUsed($idVehicle);
       if ($vehic->count() > 0){
-        return view('Vehicle/errorAccion')->with('mensaje', 'El vehículo está siendo usado en un viaje');
+        return view('Vehicle/errorAccion')->with('mensaje', 'No se pudo modificar el vehículo, pertenece a un viaje con postulantes pendientes o aceptados');
       }else{
       $vehicle = Vehicle::where('id', $idVehicle)->get();
       return view('Vehicle/modifyVehicle')->with('vehicles',$vehicle->first());
@@ -72,7 +72,7 @@ class VehicleController extends Controller
     if($this->checkOwner($idVehicle)){
       $vehic = $this->isVehicleUsed($idVehicle);
       if ($vehic->count() > 0){
-        return view('Vehicle/errorAccion')->with('mensaje', 'El vehículo está siendo usado en un viaje');
+        return view('Vehicle/errorAccion')->with('mensaje', 'No se pudo borrar el vehículo, pertenece a un viaje con postulantes pendientes o aceptados');
       }else{
         $vehicle = Vehicle::destroy($idVehicle);
         $this->index();
@@ -88,6 +88,10 @@ class VehicleController extends Controller
   public function storeModify(Request $request)
   {
     $idVehicle = $request->input('idVehicle');
+    $vehi = $this->checkPatent($request->input('patentVehicle'));
+    if ($vehi->count() > 0 ){
+      return back()->with('error', 'Error al modificar el  vehículo, ingresaste una patente registrada en el sistema');
+    }
     $vehicle = Vehicle::find($idVehicle);
     $vehicle->brand = $request -> input('brandVehicle');
     $vehicle->model = $request -> input('modelVehicle');
@@ -103,7 +107,6 @@ class VehicleController extends Controller
   public function checkOwner($idVehicle)
   {
     return (Auth::user()->vehicles->find($idVehicle) ) ;
-    //return ($usr->where('id', $idVehicle));
   }
 
   public function isVehicleUsed($idVehicle)
@@ -113,4 +116,10 @@ class VehicleController extends Controller
     return ($trips);
   }
 
+  public function checkPatent($patent)
+  {
+    $vehicles = Vehicle::get(['patent']);
+    $vehicleWithPatent = $vehicles->where('patent', $patent);
+    return ($vehicleWithPatent);
+}
 }

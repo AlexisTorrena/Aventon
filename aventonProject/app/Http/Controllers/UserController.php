@@ -59,8 +59,6 @@ class UserController extends Controller
       }else{
         return view('Vehicle/index')->with('vehicles',$vehicles);
       }
-      // return view('Vehicle/index')->with('vehicles',$vehicles);
-
     }
 
     public function showTrips(){
