@@ -39,6 +39,7 @@
             <th>Costo</th>
             <th>Duracion</th>
             <th>Frecuencia</th>
+            <th>Conductor</th>
             @if(!$trip->isRatable)
                 @if( $ownerId != Auth::user()->id )
                 <th width="200">Postulate!</th>
@@ -57,6 +58,7 @@
                     <td>{{ $trip['cost'] }}</td>
                     <td>{{ $trip['duration'] }}</td>
                     <td>{{ $trip['periodicity'] }}</td>
+                    <td> <a href="{{action('UserController@showProfile', ['id' => $trip->TripConfiguration->owner->id ])}}">{{$trip->TripConfiguration->owner->name }}</a></td>
                     @if(!$trip->isRatable)
                         @if( $ownerId != Auth::user()->id )
                         <td><a class="button hollow" href="{{ action('TripsController@postulate', ['tripConfig' => $trip->trip_config_id,'date' => $trip->date,'tripId' => $trip->id]) }}">Postularse</a></td>
@@ -71,26 +73,28 @@
                 </tr>
             </tbody>
         </table>
-    @if(!$trip->realPassengers->isEmpty())
-        <h3>Tus Pasajeros Son:</h3>
-        <table class="table table-striped">
-                <thead class="thead-dark">
-                 <tr>
-                 <th>Nombre</th>
-                 <th width="200">Accion</th>
-                 </tr>
-                </thead>
-                 <tbody>
-                    @foreach ($trip->realPassengers as $realPassenger)
-                     <tr>
-                        <td>{{ $realPassenger->name }}</td>
-                        <td><a class="button hollow" href="{{ action('TripsController@detail', ['tripConfig' => $trip->trip_config_id,'date' => $trip->date,'tripId' => $trip->id]) }}">Ver Perfil</a></td>
-                     </tr>
-                     @endforeach
-                 </tbody>
-            </table>
-            <hr noshade style="height: 2px">
-    @endif
+       @if($ownerId == Auth::user()->id) 
+        @if(!$trip->realPassengers->isEmpty())
+            <h3>Tus Pasajeros Son:</h3>
+            <table class="table table-striped">
+                    <thead class="thead-dark">
+                    <tr>
+                    <th>Nombre</th>
+                    <th width="200">Accion</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($trip->realPassengers as $realPassenger)
+                        <tr>
+                            <td>{{ $realPassenger->name }}</td>
+                            <td> <a href="{{action('UserController@showProfile', ['id' => $realPassenger->id ])}}">Ver Perfil</a></td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+                <hr noshade style="height: 2px">
+        @endif
+       @endif
         @if( $ownerId != Auth::user()->id )
         
         <form method="GET" action="{{ action('TripsController@postQuestion', ['tripConfig' => $trip->trip_config_id,'date' => $trip->date,'tripId' => $trip->id]) }}">
