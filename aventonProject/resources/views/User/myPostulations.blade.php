@@ -41,7 +41,7 @@
         <td>{{ $postulation['cost'] }}</td>
         <td>{{ $postulation['duration'] }}</td>
         <td>{{ $postulation['periodicity'] }}</td>
-        <td><a class="button hollow" href="{{ action('TripsController@deletePostulation', ['tripId' => $postulation->id]) }}">Borrar postulación</a></td>
+        <td><a class="button hollow" href="{{ action('TripsController@deletePostulation', ['tripId' => $postulation->id]) }}">Eliminar postulación</a></td>
       </tr>
       @endforeach
     </tbody>
