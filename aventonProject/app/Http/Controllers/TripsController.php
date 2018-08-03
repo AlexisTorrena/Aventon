@@ -339,10 +339,12 @@ class TripsController extends Controller
         else
         {
             $tripsToShow = collect(new Trip);
-            //Show only real trips
+            //Show all trips
             foreach ($configs as $configuration) {
+                $goshtTrips = $configuration->goshtTrips->keyBy('date');
                 $realTrips = $configuration->trips->keyBy('date');
-                $tripsToShow = $tripsToShow->concat($realTrips);
+                $trips = $goshtTrips->merge($realTrips);
+                $tripsToShow = $tripsToShow->concat($trips);
             }
 
           $trips = $tripsToShow;
@@ -358,6 +360,11 @@ class TripsController extends Controller
 
         $today = Carbon::today()->format('d-m-Y');
         $currentHour = Carbon::now()->toTimeString();
+
+        if(!$trip)
+        {
+            return redirect()->action('TripsController@organized');
+        }
 
         if ($this->isOwner($trip))
         {

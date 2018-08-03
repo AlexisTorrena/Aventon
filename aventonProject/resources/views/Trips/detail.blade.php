@@ -39,11 +39,13 @@
          <th>Costo</th>
          <th>Duracion</th>
          <th>Frecuencia</th>
-         @if( $ownerId != Auth::user()->id )
-         <th width="200">Postulate!</th>
-         @else
-         <th width="200">Accion</th>
-         @endif
+         @if(!$trip->isRatable)
+            @if( $ownerId != Auth::user()->id )
+            <th width="200">Postulate!</th>
+            @else
+            <th width="200">Accion</th>
+            @endif
+        @endif   
          </tr>
         </thead>
          <tbody>
@@ -55,16 +57,18 @@
                   <td>{{ $trip['cost'] }}</td>
                   <td>{{ $trip['duration'] }}</td>
                   <td>{{ $trip['periodicity'] }}</td>
-                  @if( $ownerId != Auth::user()->id )
-                  <td><a class="button hollow" href="{{ action('TripsController@postulate', ['tripConfig' => $trip->trip_config_id,'date' => $trip->date,'tripId' => $trip->id]) }}">Postularse</a></td>
-                  @else
-                  <td>
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#messageWindow">
-                                Cancelar
-                        </button>
-                  </td>  
+                  @if(!$trip->isRatable)
+                    @if( $ownerId != Auth::user()->id )
+                    <td><a class="button hollow" href="{{ action('TripsController@postulate', ['tripConfig' => $trip->trip_config_id,'date' => $trip->date,'tripId' => $trip->id]) }}">Postularse</a></td>
+                    @else
+                    <td>
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#messageWindow">
+                                    Cancelar
+                            </button>
+                    </td>  
+                    @endif
                   @endif
-                </tr>
+             </tr>
          </tbody>
     </table>
         @if( $ownerId != Auth::user()->id )
