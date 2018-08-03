@@ -324,7 +324,9 @@ class TripsController extends Controller
             $ownerId = $configurations->find($tripConfig)->custom_user_id;
             $questions = $trip->questions;
             $postulations = $trip->postulations;
-        return view('Trips/detail', array('trip' => $trip , 'questions' => $questions, 'ownerId' => $ownerId, 'postulations' => $postulations));
+            $passengers = $trip->passengers;
+
+        return view('Trips/detail', array('trip' => $trip , 'passengers' => $passengers,'questions' => $questions, 'ownerId' => $ownerId, 'postulations' => $postulations));
     }
 
     public function organized(){
@@ -474,5 +476,21 @@ class TripsController extends Controller
         return back()->with('error', 'ya calificaste este viaje!');
        }
 
+    }
+
+    public function deletePassenger($tripId){
+
+        $userId = Auth::user()->id;
+        try{
+
+        DB::table('passengers')
+            ->where('user_id', '=', $userId)
+            ->where('trip_id', '=', $tripId)->delete();
+
+            return back()->with('succesfuly', 'Ya no sos mas un pasajero de este viaje.');
+
+        }catch (Exception $e){
+            return back()->with('error', 'No se pudo borrar la postulación.');
+        }
     }
 }

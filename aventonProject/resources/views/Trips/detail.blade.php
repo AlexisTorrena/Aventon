@@ -96,9 +96,13 @@
             <th>Conductor</th>
             @if(!$trip->isRatable)
                 @if( $ownerId != Auth::user()->id )
-                <th width="200">Postulate!</th>
-                @else
-                <th width="200">Accion</th>
+                
+                    @if( $passengers->find(Auth::user()->id) )
+                        <th width="200">Accion</th>
+                    @else
+                        <th width="200">Postulate!</th>
+                    @endif
+
                 @endif
             @endif   
             </tr>
@@ -115,7 +119,11 @@
                     <td> <a href="{{action('UserController@showProfile', ['id' => $trip->TripConfiguration->owner->id ])}}">{{$trip->TripConfiguration->owner->name }}</a></td>
                     @if(!$trip->isRatable)
                         @if( $ownerId != Auth::user()->id )
-                        <td><a class="button hollow" href="{{ action('TripsController@postulate', ['tripConfig' => $trip->trip_config_id,'date' => $trip->date,'tripId' => $trip->id]) }}">Postularse</a></td>
+                            @if( !$passengers->find(Auth::user()->id) ) 
+                            <td><a class="button hollow" href="{{ action('TripsController@postulate', ['tripConfig' => $trip->trip_config_id,'date' => $trip->date,'tripId' => $trip->id]) }}">Postularse</a></td>
+                            @else
+                            <td><a class="button hollow" href="{{ action('TripsController@deletePassenger', ['tripId' => $trip->id]) }}"> Darse de baja!</a></td>
+                            @endif
                         @else
                         <td>
                                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#messageWindow">

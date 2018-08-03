@@ -76,3 +76,5 @@ Route::get('/registrationCompleted', 'HomeController@regCompleted');
 Route::get('/myTrips', 'UserController@showTrips');
 
 Route::get('/check/{date}', 'UserController@checkIfAvailable');
+
+Route::get('/deletePassenger/{tripId}', 'TripsController@deletePassenger');
