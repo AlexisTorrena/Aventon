@@ -21,7 +21,12 @@
             <p class="card-text">{{$user['email']}}</p>
             <p class="card-text">{{$user['birthDate']}}</p>
             <a href="myVehicles" class="btn btn-info" role="button">Mis vehículos</a>
+            <br>
+            <br>
             <a href="myTrips" class="btn btn-info" role="button">Mis viajes</a>
+            <br>
+            <br>
+            <a href="myPostulations" class="btn btn-info" role="button">Mis postulaciones</a>
           </div>
       </div>
     </div>

@@ -64,6 +64,7 @@
     </thead>
     <tbody>
       @foreach ( $trips as $trip )
+      @if(\Carbon\Carbon::parse($trip->date) >= \Carbon\Carbon::today())
       <tr>
         <td>{{ $trip['status'] }}</td>
         <td>{{ $trip['origin'] }}</td>
@@ -75,6 +76,7 @@
         <td>{{ $trip['periodicity'] }}</td>
         <td><a class="button hollow" href="{{ action('TripsController@detail', ['tripConfig' => $trip->trip_config_id,'date' => $trip->date,'tripId' => $trip->id]) }}">Ver</a></td>
       </tr>
+      @endif
       @endforeach
     </tbody>
   </table>

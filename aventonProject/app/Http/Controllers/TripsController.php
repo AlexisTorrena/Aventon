@@ -136,69 +136,86 @@ class TripsController extends Controller
         //
     }
 
+    public function deletePostulation($tripId){
+
+        $userId = Auth::user()->id;
+        try{
+
+        DB::table('postulations')
+            ->where('user_id', '=', $userId)
+            ->where('trip_id', '=', $tripId)->delete();
+            return back()->with('succesfuly', 'Postulación eliminada.');
+
+        }catch (Exception $e){
+            return back()->with('error', 'No se pudo borrar la postulación.');
+        }
+    }
     public function postulate($tripConfig,$date,$tripId){
         $trips = new Trip;
         $trip;
+        $carbonDate = new Carbon($date);
+        $today = Carbon::now();
 
-        if($tripId > 0)
-        {
-          $trip = $trips->find($tripId);
-        }
-        else
-        {
-            $trips = new Trip;
-            $trips->date = $date;
-            $trips->trip_config_id = $tripConfig;
-            $trips->status = 'Abierto';
-            $trips->save();
-            $trip = $trips;
-
-            $tripConfiguration = new TripConfiguration;
-            $configurations = $tripConfiguration->all();
-            $userId = $configurations->find($tripConfig)->custom_user_id;
-
-            DB::table('passengers')->insert(
-                ['user_id' => $userId,
-                'trip_id' => $trip->id]
-            );
-        }
-
-        $tripId = $trip->id;
-        $isPassenger = $trip->passengers()->where('user_id', Auth::user()->id)->exists();
-
-        if($isPassenger){
-
-            return back()->with('error', 'Ya sos un pasajero de este viaje');
-        }
-        else{
-            $numberOfPassengers = sizeOf($trip->passengers);
-            $tripConfiguration = new TripConfiguration;
-            $configurations = $tripConfiguration->all();
-            $vehicleId = $configurations->find($tripConfig)->vehicle_id;
-            $vehicle = new Vehicle;
-            $vehicles = $vehicle->all();
-            $vehicle = $vehicles->find($vehicleId);
-            //dd($vehicle);
-            //dd($vehicle->seats);
-            //dd($passengers);
-
-            if($vehicle->seats > $numberOfPassengers){
-
-            $hasPostulation = Auth::user()->postulations()->where('trip_id', $tripId)->exists();
-
-            if($hasPostulation){
-                return back()->with('error', 'Ya estás postulado en este viaje');
+        if($carbonDate > $today){
+            
+            if($tripId > 0)
+            {
+              $trip = $trips->find($tripId);
+            }
+            else
+            {
+                $trips = new Trip;
+                $trips->date = $date;
+                $trips->trip_config_id = $tripConfig;
+                $trips->status = 'Abierto';
+                $trips->save();
+                $trip = $trips;
+                $tripConfiguration = new TripConfiguration;
+                $configurations = $tripConfiguration->all();
+                $userId = $configurations->find($tripConfig)->custom_user_id;
+                DB::table('passengers')->insert(
+                    ['user_id' => $userId,
+                    'trip_id' => $trip->id]
+                );
+            }
+            $tripId = $trip->id;
+            $isPassenger = $trip->passengers()->where('user_id', Auth::user()->id)->exists();
+            if($isPassenger){
+                return back()->with('error', 'Ya sos un pasajero de este viaje.');
             }
             else{
-                DB::table('postulations')->insert(
-                    ['user_id' => Auth::user()->id,
-                    'trip_id' => $tripId]
-                );
-                return back()->with('succesfuly', 'Te postulaste! Ahora tenés que esperar que el dueño de la publicación te acepte.');
-            }
-            }else{
-                return back()->with('error', 'El viaje está lleno');
-            }
+                $numberOfPassengers = sizeOf($trip->passengers);
+                $tripConfiguration = new TripConfiguration;
+                $configurations = $tripConfiguration->all();
+                $vehicleId = $configurations->find($tripConfig)->vehicle_id;
+                $vehicle = new Vehicle;
+                $vehicles = $vehicle->all();
+                $vehicle = $vehicles->find($vehicleId);
+                //dd($vehicle);
+                //dd($vehicle->seats);
+                //dd($passengers);
+                if($vehicle->seats > $numberOfPassengers){
+                    $hasPostulation = Auth::user()->postulations()->where('trip_id', $tripId)->exists();
+                    if($hasPostulation){
+                        return back()->with('error', 'Ya estás postulado en este viaje.');
+                    }
+                    else{
+                        if(Auth::user()->checkIfAvailable($date)){
+                            DB::table('postulations')->insert(
+                                 ['user_id' => Auth::user()->id,
+                                  'trip_id' => $tripId]
+                            );
+                            return back()->with('succesfuly', 'Te postulaste! Ahora tenés que esperar que el dueño de la publicación te acepte.');
+                        }else{
+                            return back()->with('error', 'Ya tenés un viaje o postulación en esta fecha');
+                        }
+                    }
+                }else{
+                    return back()->with('error', 'El viaje está lleno.');
+                }
+            } 
+        }else{
+            return back()->with('error', 'La fecha del viaje es anterior a hoy.');
         }
     }
 
