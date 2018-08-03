@@ -64,7 +64,29 @@ class UserController extends Controller
     public function showTrips(){
 
         $trips = Auth::user()->trips;
-        return view('User/myTrips')->with('trips',$trips);
+        
+        if(!$trips->isEmpty())
+        {
+            return view('User/myTrips')->with('trips',$trips);
+        }
+        else
+        {
+            return view('User/withoutTrips');
+        }
+    }
+
+    public function showPostulations(){
+        
+        $postulations = Auth::user()->postulations;
+
+        if(!$postulations->isEmpty())
+        {
+            return view('User/myPostulations')->with('postulations',$postulations);
+        }
+        else
+        {
+            return view('User/withoutPostulations');
+        }
     }
     /**
      * Show the form for editing the specified resource.

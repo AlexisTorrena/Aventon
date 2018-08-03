@@ -4,7 +4,7 @@
 <meta name="author" content="">
 
 <title>Aventon</title>
-
+<link rel="shortcut icon" href="{{ asset('images/aventon.ico') }}">
 <!-- Bootstrap core CSS -->
 <link href="{{ asset('css/bootstrap.css') }}" rel="stylesheet">
 <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">

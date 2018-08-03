@@ -21,7 +21,12 @@
             <p class="card-text">{{$user['email']}}</p>
             <p class="card-text">{{$user['birthDate']}}</p>
             <a href="myVehicles" class="btn btn-info" role="button">Mis vehículos</a>
+            <br>
+            <br>
             <a href="myTrips" class="btn btn-info" role="button">Mis viajes</a>
+            <br>
+            <br>
+            <a href="myPostulations" class="btn btn-info" role="button">Mis postulaciones</a>
           </div>
       </div>
     </div>
@@ -29,11 +34,11 @@
       <h1>Reputación</h1>
        @if(!$user->HasReputation)
           <p>
-            El usuario {{$user->name}} todavia no posee suficientes calificaciones!. Debe tener al menos tres calificaciones.
+            El usuario {{$user->name}} todavía no posee suficientes calificaciones! Debe tener al menos tres calificaciones.
           </p>
        @else
           <P>
-           {{$user->name}} tu reputacion actual es:
+           {{$user->name}} tu reputación actual es:
           </P>
           @php
           $index = 1;

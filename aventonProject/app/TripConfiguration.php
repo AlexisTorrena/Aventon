@@ -68,11 +68,31 @@ class TripConfiguration extends Model
                 } 
                 break;
             case "Semanal":
-                //echo "Your favorite color is green!";
-                break;
+                    //<= becasue if same day it will be zero
+                    $cantOfweeks = $this->startDate->diffInWeeks($this->endDate);
+
+                    for ($x = 0; $x <= $cantOfweeks; $x++) {
+                        $trip = new Trip;
+                        $trip->trip_config_id= $this->id;
+                        $trip->date = $this->startDate->copy()->addWeeks($x);
+                        $trip->status = 'Abierto';
+                        $trip->id = 0;
+                        $gTrips->push($trip);
+                    } 
+                    break;
             case "Mensual":
-                //echo "Your favorite color is green!";
-                break;                
+                    //<= becasue if same day it will be zero
+                    $cantOfMonths = $this->startDate->diffInMonths($this->endDate);
+
+                    for ($x = 0; $x <= $cantOfMonths; $x++) {
+                        $trip = new Trip;
+                        $trip->trip_config_id= $this->id;
+                        $trip->date = $this->startDate->copy()->addMonths($x);
+                        $trip->status = 'Abierto';
+                        $trip->id = 0;
+                        $gTrips->push($trip);
+                    } 
+                    break;              
             default:
                 //echo "Your favorite color is neither red, blue, nor green!";
             }

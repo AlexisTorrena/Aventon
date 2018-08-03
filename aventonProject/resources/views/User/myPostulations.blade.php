@@ -31,17 +31,17 @@
       </tr>
     </thead>
     <tbody>
-      @foreach ( $trips as $trip )
+      @foreach ( $postulations as $postulation )
       <tr>
-        <td>{{ $trip['status'] }}</td>
-        <td>{{ $trip['origin'] }}</td>
-        <td>{{ $trip['destination'] }}</td>
-        <td>{{ $trip['startTime'] }}</td>
-        <td>{{ $trip['date']}}</td>
-        <td>{{ $trip['cost'] }}</td>
-        <td>{{ $trip['duration'] }}</td>
-        <td>{{ $trip['periodicity'] }}</td>
-        <td><a class="button hollow" href="{{ action('TripsController@detail', ['tripConfig' => $trip->trip_config_id,'date' => $trip->date,'tripId' => $trip->id]) }}">Ver</a></td>
+        <td>{{ $postulation['status'] }}</td>
+        <td>{{ $postulation['origin'] }}</td>
+        <td>{{ $postulation['destination'] }}</td>
+        <td>{{ $postulation['startTime'] }}</td>
+        <td>{{ $postulation['date']}}</td>
+        <td>{{ $postulation['cost'] }}</td>
+        <td>{{ $postulation['duration'] }}</td>
+        <td>{{ $postulation['periodicity'] }}</td>
+        <td><a class="button hollow" href="{{ action('TripsController@deletePostulation', ['tripId' => $postulation->id]) }}">Borrar postulación</a></td>
       </tr>
       @endforeach
     </tbody>
